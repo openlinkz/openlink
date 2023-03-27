@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package client;
+
+option go_package = "github.com/openlinkz/openlink/pkg/client";
+
+message Config {
+  string addr = 1;
+  string timeout = 2;
+  bool insecure = 3;
+}

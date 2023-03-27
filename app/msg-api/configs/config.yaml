@@ -1,0 +1,11 @@
+server:
+  http:
+    addr: :18080
+    timeout: 5s
+  grpc:
+    addr: :18081
+    timeout: 5s
+registry:
+  etcd:
+    addr: localhost:2379
+    dialTimeout: 3s

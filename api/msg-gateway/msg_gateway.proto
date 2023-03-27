@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package msg.gateway;
+
+option go_package = "github.com/openlinkz/openlink/api/msg-gateway";
+
+import "protocol/protocol.proto";
+
+service MsgGatewayService {
+  rpc PushMsg(PushMsgReq) returns (PushMsgReply);
+}
+
+message PushMsgReq {
+  repeated string SIDs = 1;
+  msg.protocol.Protocol protocol = 2;
+}
+
+message PushMsgReply {}

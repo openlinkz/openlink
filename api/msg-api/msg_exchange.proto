@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package msg.api;
+
+option go_package = "github.com/openlinkz/openlink/api/msg-api";
+
+import "protocol/protocol.proto";
+
+service MsgExchangeService {
+  rpc SendMsg(Msg) returns (SendMsgReply);
+  rpc Connect(ConnectRequest) returns (ConnectReply);
+  rpc Disconnect(DisconnectRequest) returns (DisconnectReply);
+  rpc KeepAlive(KeepAliveRequest) returns (KeepAliveReply);
+}
+
+message Msg {
+  string server = 1;
+  string SID = 2;
+  msg.protocol.Protocol protocol = 3;
+}
+
+message UserConnectionInfo {}
+
+message SendMsgReply {}
+
+message ConnectRequest {
+  string server = 1;
+  string SID = 2;
+  string UID = 3;
+  string platform = 4;
+}
+
+message ConnectReply {}
+
+message DisconnectRequest {
+  string server = 1;
+  string SID = 2;
+  string UID = 3;
+}
+
+message DisconnectReply {}
+
+message KeepAliveRequest {
+  string server = 1;
+  string SID = 2;
+  string UID = 3;
+  string platform = 4;
+}
+
+message KeepAliveReply {
+  bool exists = 1;
+}
+

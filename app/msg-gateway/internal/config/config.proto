@@ -1,0 +1,33 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "app/msg-gateway/internal/config;config";
+
+import "server/config.proto";
+import "client/config.proto";
+import "google/protobuf/duration.proto";
+
+// protoc -I. --proto_path=/Users/y.liu/go/src/github.com/openlinkz/openlink/pkg --go_out=paths=source_relative:. app/ws-gateway/internal/config/config.proto
+
+message Bootstrap {
+  Server server = 1;
+  Client client = 2;
+  Registry registry = 4;
+}
+
+message Server {
+  server.Config http = 1;
+  server.Config grpc = 2;
+}
+
+message Client {
+  client.Config wsAPI = 1;
+}
+
+message Registry {
+  message ETCD {
+    string addr = 1;
+    google.protobuf.Duration dialTimeout = 2;
+  }
+  ETCD etcd = 1;
+}

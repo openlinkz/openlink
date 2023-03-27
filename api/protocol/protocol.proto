@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package msg.protocol;
+
+option go_package = "github.com/openlinkz/openlink/api/protocol";
+
+enum Type {
+  HEARTBEAT = 0;
+}
+
+message Protocol {
+  string type = 1;
+  bytes payload = 2;
+}
+
+message HeartBeatPayload {
+  string server = 1;
+  string sid = 2;
+  string uid = 3;
+}
+
+enum Platform {
+  PC = 0;
+  APP = 1;
+  H5 = 2;
+}

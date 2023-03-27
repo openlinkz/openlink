@@ -1,0 +1,16 @@
+server:
+  http:
+    addr: :28080
+    timeout: 5s
+  grpc:
+    addr: :28081
+    timeout: 5s
+client:
+  wsAPI:
+    addr: discovery:///msg-api
+    timeout: 1s
+    insecure: true
+registry:
+  etcd:
+    addr: localhost:2379
+    dialTimeout: 3s
