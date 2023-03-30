@@ -23,13 +23,13 @@ kratos proto client --proto_path=/Users/y.liu/go/src/github.com/openlinkz/openli
 ### ws-gateway
 
 ```bash
-docker build --build-arg APP_NAME=msg-gateway -f deploy/docker/Dockerfile -t msg-gateway .
+docker build --build-arg APP_NAME=msg_gateway -f deploy/docker/Dockerfile -t msg_gateway .
 ```
 
 ### ws-api
 
 ```bash
-docker build --build-arg APP_NAME=msg-api -f deploy/docker/Dockerfile -t msg-api .
+docker build --build-arg APP_NAME=msg_api -f deploy/docker/Dockerfile -t msg_api .
 ```
 
 ## run
@@ -38,14 +38,14 @@ docker build --build-arg APP_NAME=msg-api -f deploy/docker/Dockerfile -t msg-api
 cd deploy/docker-compose
 docker-compose up
 
-Starting msg-api ... done
-Starting msg-gateway ... done
-Attaching to msg-api, msg-gateway
-msg-api        | 2022/11/23 15:27:42 maxprocs: Updating GOMAXPROCS=1: determined from CPU quota
-msg-api        | 2022/11/23 15:27:42 gRPC server serve :8081
-msg-api        | 2022/11/23 15:27:42 gateway [172.20.0.3] gRPC streaming connect
-msg-gateway    | 2022/11/23 15:27:42 maxprocs: Updating GOMAXPROCS=1: determined from CPU quota
-msg-gateway    | 2022/11/23 15:27:42 HTTP server serve :8080
+Starting msg_api ... done
+Starting msg_gateway ... done
+Attaching to msg_api, msg_gateway
+msg_api        | 2022/11/23 15:27:42 maxprocs: Updating GOMAXPROCS=1: determined from CPU quota
+msg_api        | 2022/11/23 15:27:42 gRPC server serve :8081
+msg_api        | 2022/11/23 15:27:42 msg_gateway [172.20.0.3] gRPC streaming connect
+msg_gateway    | 2022/11/23 15:27:42 maxprocs: Updating GOMAXPROCS=1: determined from CPU quota
+msg_gateway    | 2022/11/23 15:27:42 HTTP server serve :8080
 
 ```
 
@@ -65,16 +65,16 @@ go get github.com/lyouthzzz/websocket-benchmark-cli@main
 - 单个gRPC Streaming连接
 
 ```bash
- websocket-benchmark-cli message --file testdata/50b.txt  --interval 1s --times 10000 --user 10000 --host 127.0.0.1:8080 --path /gateway/ws
+ websocket-benchmark-cli message --file testdata/50b.txt  --interval 1s --times 10000 --user 10000 --host 127.0.0.1:8080 --path /msg_gateway/ws
 ```
 
 服务客户端表现稳定
 
 ```bash
-docker stats msg-gateway
+docker stats msg_gateway
 
 CONTAINER ID   NAME         CPU %     MEM USAGE / LIMIT   MEM %     NET I/O         BLOCK I/O   PIDS
-7144b1c4efff   msg-gateway   6.86%     380.4MiB / 2GiB     18.58%    854MB / 593MB   0B / 0B     6
+7144b1c4efff   msg_gateway   6.86%     380.4MiB / 2GiB     18.58%    854MB / 593MB   0B / 0B     6
 ```
 
 ![统计图.png](docs/benchmark-50b.png)
@@ -87,7 +87,7 @@ CONTAINER ID   NAME         CPU %     MEM USAGE / LIMIT   MEM %     NET I/O     
 - 单个gRPC Streaming连接
 
 ```bash
-websocket-benchmark-cli message --file testdata/1k.txt  --interval 1s --times 10000 --user 10000 --host 127.0.0.1:8080 --path /gateway/ws
+websocket-benchmark-cli message --file testdata/1k.txt  --interval 1s --times 10000 --user 10000 --host 127.0.0.1:8080 --path /msg_gateway/ws
 ```
 
 出现瓶颈，客户端报错：write: connection timed out 原因：服务端处理消息出现瓶颈（可能是 ws-gateway -> ws-api出现问题，

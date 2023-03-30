@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.15.5
-// source: api/msg-api/msg_exchange.proto
+// source: api/msg_api/msg_exchange.proto
 
 package msg_api
 
@@ -209,5 +209,5 @@ var MsgExchangeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/msg-api/msg_exchange.proto",
+	Metadata: "api/msg_api/msg_exchange.proto",
 }

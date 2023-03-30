@@ -2,10 +2,10 @@ version: "3.3"
 
 services:
   ws-gateway:
-    container_name: msg-gateway
+    container_name: msg_gateway
     image: ws-gateway
     environment:
-      APP_NAME: msg-gateway
+      APP_NAME: msg_gateway
     ports:
       - "8080:8080"
     depends_on:
@@ -19,13 +19,13 @@ services:
           cpus: '1'
           memory: 2G
     command:
-      - /app/msg-gateway
-      - --ws_api_endpoint=msg-api:8081
+      - /app/msg_gateway
+      - --ws_api_endpoint=msg_api:8081
   ws-api:
-    container_name: msg-api
+    container_name: msg_api
     image: ws-api
     environment:
-      APP_NAME: msg-api
+      APP_NAME: msg_api
     ports:
       - "8081:8081"
     deploy:

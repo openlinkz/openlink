@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"github.com/google/wire"
-	"github.com/openlinkz/openlink/api/msg-api"
+	"github.com/openlinkz/openlink/api/msg_api"
 	"github.com/openlinkz/openlink/app/msg-api/internal/biz"
 	"github.com/openlinkz/openlink/app/msg-api/internal/domain"
 	"time"

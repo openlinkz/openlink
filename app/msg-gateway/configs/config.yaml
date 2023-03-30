@@ -7,7 +7,7 @@ server:
     timeout: 5s
 client:
   wsAPI:
-    addr: discovery:///msg-api
+    addr: discovery:///msg_api
     timeout: 1s
     insecure: true
 registry:

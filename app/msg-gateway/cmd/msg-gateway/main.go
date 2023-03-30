@@ -10,7 +10,7 @@ import (
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
-	"github.com/openlinkz/openlink/api/msg-api"
+	"github.com/openlinkz/openlink/api/msg_api"
 	appconfig "github.com/openlinkz/openlink/app/msg-gateway/internal/config"
 	"github.com/openlinkz/openlink/app/msg-gateway/internal/gateway"
 	"github.com/openlinkz/openlink/app/msg-gateway/internal/server"

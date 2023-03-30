@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package msg.gateway;
 
-option go_package = "github.com/openlinkz/openlink/api/msg-gateway";
+option go_package = "github.com/openlinkz/openlink/api/msg_gateway";
 
 import "protocol/protocol.proto";
 

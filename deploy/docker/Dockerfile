@@ -23,7 +23,7 @@ RUN go build -installsuffix=cgo \
     -tags="jsoniter netgo" \
     -ldflags="$LDFLAGS" \
     -o=${APP_NAME} \
-    /go/src/msg-gateway/app/${APP_NAME}/cmd/${APP_NAME}
+    /go/src/msg_gateway/app/${APP_NAME}/cmd/${APP_NAME}
 
 FROM alpine:3.12
 

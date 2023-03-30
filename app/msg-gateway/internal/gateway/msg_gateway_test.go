@@ -3,7 +3,7 @@ package gateway
 import (
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/openlinkz/openlink/api/msg-gateway"
+	"github.com/openlinkz/openlink/api/protocol"
 	"math/rand"
 	"testing"
 )
@@ -18,7 +18,7 @@ func TestWebsocketProtocol(t *testing.T) {
 
 	fmt.Printf("payload len: %d\n", len(payloadContent))
 
-	protoMsg := &msg_gateway.Protocol{
+	protoMsg := &protocol.Protocol{
 		Type:    "message",
 		Payload: payloadContent,
 	}

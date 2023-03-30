@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.0
 // 	protoc        v3.15.5
-// source: app/msg-gateway/internal/config/config.proto
+// source: app/msg_gateway/internal/config/config.proto
 
 package config
 

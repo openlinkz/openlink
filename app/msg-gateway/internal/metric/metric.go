@@ -13,7 +13,7 @@ var (
 
 func init() {
 	GatewayOnlineTotals = prometheus.NewGauge(prometheus.GaugeOpts{
-		Namespace: "gateway",
+		Namespace: "msg_gateway",
 		Subsystem: "websocket",
 		Name:      "online_totals",
 		Help:      "the totals of online websocket",
@@ -21,7 +21,7 @@ func init() {
 	prometheus.MustRegister(GatewayOnlineTotals)
 
 	GatewayInputBytes = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "gateway",
+		Namespace: "msg_gateway",
 		Subsystem: "websocket",
 		Name:      "input_bytes",
 		Help:      "the bytes of websocket input",
@@ -29,7 +29,7 @@ func init() {
 	prometheus.MustRegister(GatewayInputBytes)
 
 	GatewayOutputBytes = prometheus.NewCounter(prometheus.CounterOpts{
-		Namespace: "gateway",
+		Namespace: "msg_gateway",
 		Subsystem: "websocket",
 		Name:      "output_bytes",
 		Help:      "the bytes of websocket output",

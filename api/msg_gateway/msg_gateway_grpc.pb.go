@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.15.5
-// source: api/msg-gateway/msg_gateway.proto
+// source: api/msg_gateway/msg_gateway.proto
 
 package msg_gateway
 
@@ -101,5 +101,5 @@ var MsgGatewayService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/msg-gateway/msg_gateway.proto",
+	Metadata: "api/msg_gateway/msg_gateway.proto",
 }

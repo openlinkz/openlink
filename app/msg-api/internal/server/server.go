@@ -6,7 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/transport"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/google/wire"
-	"github.com/openlinkz/openlink/api/msg-api"
+	"github.com/openlinkz/openlink/api/msg_api"
 	"github.com/openlinkz/openlink/app/msg-api/internal/config"
 	"github.com/openlinkz/openlink/app/msg-api/internal/service"
 	"github.com/prometheus/client_golang/prometheus"

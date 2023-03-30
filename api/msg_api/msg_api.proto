@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package msg.api;
 
-option go_package = "github.com/openlinkz/openlink/api/msg-api";
+option go_package = "github.com/openlinkz/openlink/api/msg_api";
 
 service MsgAPIService {
   rpc Push(BizMsg) returns (PushBizMsgReply) {}

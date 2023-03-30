@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.0
 // 	protoc        v3.15.5
-// source: app/msg-api/internal/config/config.proto
+// source: app/msg_api/internal/config/config.proto
 
 package config
 
@@ -411,24 +411,24 @@ func file_app_ws_api_internal_config_config_proto_rawDescGZIP() []byte {
 
 var file_app_ws_api_internal_config_config_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_app_ws_api_internal_config_config_proto_goTypes = []interface{}{
-	(*Bootstrap)(nil),           // 0: msg-api.Bootstrap
-	(*Server)(nil),              // 1: msg-api.Server
-	(*Data)(nil),                // 2: msg-api.Data
-	(*Registry)(nil),            // 3: msg-api.Registry
-	(*Data_Redis)(nil),          // 4: msg-api.Data.Redis
-	(*Registry_ETCD)(nil),       // 5: msg-api.Registry.ETCD
+	(*Bootstrap)(nil),           // 0: msg_api.Bootstrap
+	(*Server)(nil),              // 1: msg_api.Server
+	(*Data)(nil),                // 2: msg_api.Data
+	(*Registry)(nil),            // 3: msg_api.Registry
+	(*Data_Redis)(nil),          // 4: msg_api.Data.Redis
+	(*Registry_ETCD)(nil),       // 5: msg_api.Registry.ETCD
 	(*server.Config)(nil),       // 6: server.Config
 	(*durationpb.Duration)(nil), // 7: google.protobuf.Duration
 }
 var file_app_ws_api_internal_config_config_proto_depIdxs = []int32{
-	1, // 0: msg-api.Bootstrap.server:type_name -> msg-api.Server
-	3, // 1: msg-api.Bootstrap.registry:type_name -> msg-api.Registry
-	2, // 2: msg-api.Bootstrap.data:type_name -> msg-api.Data
-	6, // 3: msg-api.Server.http:type_name -> server.Config
-	6, // 4: msg-api.Server.grpc:type_name -> server.Config
-	4, // 5: msg-api.Data.redis:type_name -> msg-api.Data.Redis
-	5, // 6: msg-api.Registry.etcd:type_name -> msg-api.Registry.ETCD
-	7, // 7: msg-api.Registry.ETCD.dialTimeout:type_name -> google.protobuf.Duration
+	1, // 0: msg_api.Bootstrap.server:type_name -> msg_api.Server
+	3, // 1: msg_api.Bootstrap.registry:type_name -> msg_api.Registry
+	2, // 2: msg_api.Bootstrap.data:type_name -> msg_api.Data
+	6, // 3: msg_api.Server.http:type_name -> server.Config
+	6, // 4: msg_api.Server.grpc:type_name -> server.Config
+	4, // 5: msg_api.Data.redis:type_name -> msg_api.Data.Redis
+	5, // 6: msg_api.Registry.etcd:type_name -> msg_api.Registry.ETCD
+	7, // 7: msg_api.Registry.ETCD.dialTimeout:type_name -> google.protobuf.Duration
 	8, // [8:8] is the sub-list for method output_type
 	8, // [8:8] is the sub-list for method input_type
 	8, // [8:8] is the sub-list for extension type_name
