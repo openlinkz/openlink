@@ -2,36 +2,44 @@ package server
 
 import (
 	"github.com/go-kratos/kratos/contrib/registry/etcd/v2"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/google/wire"
-	"github.com/openlinkz/openlink/api/msg_api"
-	"github.com/openlinkz/openlink/app/msg-api/internal/config"
-	"github.com/openlinkz/openlink/app/msg-api/internal/service"
+	"github.com/openlinkz/openlink/app/msg_gateway/internal/config"
+	"github.com/openlinkz/openlink/app/msg_gateway/internal/gateway"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
-var ProviderSet = wire.NewSet(NewServers, NewRegistry)
+var ProviderSet = wire.NewSet(NewRegistry, NewServers)
 
-func NewServers(conf *config.Server, msgExchangeService *service.MsgExchangeService) []transport.Server {
+func NewServers(conf *config.Server, gateway *gateway.MsgGateway, _ log.Logger) []transport.Server {
 	httpServer := conf.Http.BuildHTTPServer()
+	_WebsocketGateway_Connect_Handler(gateway, httpServer)
 	_PromHTTP_Metrics_Handler(httpServer)
 
 	grpcServer := conf.Grpc.BuildGRPCServer()
-	msg_api.RegisterMsgExchangeServiceServer(grpcServer, msgExchangeService)
-	//channelzservice.RegisterChannelzServiceToServer(grpcServer)
 	return []transport.Server{httpServer, grpcServer}
 }
 
-func NewRegistry(conf *config.Registry) registry.Registrar {
+func NewETCDRegistry(conf *config.Registry) *etcd.Registry {
 	client, err := clientv3.New(clientv3.Config{Endpoints: []string{conf.Etcd.Addr}, DialTimeout: conf.Etcd.DialTimeout.AsDuration()})
 	if err != nil {
 		panic(err)
 	}
 	return etcd.New(client)
+}
+
+func NewRegistry(r *etcd.Registry) registry.Registrar {
+	return r
+}
+
+// 手动注册 http websocket 路由
+func _WebsocketGateway_Connect_Handler(gateway *gateway.MsgGateway, srv *http.Server) {
+	srv.Handle("/msg_gateway/connect", gateway.WebsocketConnectHandler())
 }
 
 // 注册 prometheus metrics 路由

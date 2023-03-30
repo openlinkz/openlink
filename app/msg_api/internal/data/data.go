@@ -3,7 +3,7 @@ package data
 import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
-	appconfig "github.com/openlinkz/openlink/app/msg-api/internal/config"
+	appconfig "github.com/openlinkz/openlink/app/msg_api/internal/config"
 )
 
 var ProviderSet = wire.NewSet(NewUserStatusRepo, NewMsgRepo)

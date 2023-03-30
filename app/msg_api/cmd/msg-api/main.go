@@ -8,7 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/go-kratos/kratos/v2/transport"
-	appconfig "github.com/openlinkz/openlink/app/msg-api/internal/config"
+	appconfig "github.com/openlinkz/openlink/app/msg_api/internal/config"
 	"github.com/openlinkz/openlink/pkg/env"
 	"github.com/pkg/errors"
 	_ "go.uber.org/automaxprocs"

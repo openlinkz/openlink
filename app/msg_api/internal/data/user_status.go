@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
-	"github.com/openlinkz/openlink/app/msg-api/internal/domain"
+	"github.com/openlinkz/openlink/app/msg_api/internal/domain"
 )
 
 var _ domain.UserStatusRepo = (*userStatusRepo)(nil)

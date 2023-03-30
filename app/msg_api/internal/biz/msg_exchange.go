@@ -2,7 +2,7 @@ package biz
 
 import (
 	"context"
-	"github.com/openlinkz/openlink/app/msg-api/internal/domain"
+	"github.com/openlinkz/openlink/app/msg_api/internal/domain"
 )
 
 func NewMsgExchangeBiz(msgRepo domain.MsgRepo) *MsgExchangeBiz {

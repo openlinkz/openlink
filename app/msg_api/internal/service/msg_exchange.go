@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/google/wire"
 	"github.com/openlinkz/openlink/api/msg_api"
-	"github.com/openlinkz/openlink/app/msg-api/internal/biz"
-	"github.com/openlinkz/openlink/app/msg-api/internal/domain"
+	"github.com/openlinkz/openlink/app/msg_api/internal/biz"
+	"github.com/openlinkz/openlink/app/msg_api/internal/domain"
 	"time"
 )
 

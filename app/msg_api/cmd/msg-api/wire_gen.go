@@ -9,11 +9,11 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/openlinkz/openlink/app/msg-api/internal/biz"
-	"github.com/openlinkz/openlink/app/msg-api/internal/config"
-	"github.com/openlinkz/openlink/app/msg-api/internal/data"
-	"github.com/openlinkz/openlink/app/msg-api/internal/server"
-	"github.com/openlinkz/openlink/app/msg-api/internal/service"
+	"github.com/openlinkz/openlink/app/msg_api/internal/biz"
+	"github.com/openlinkz/openlink/app/msg_api/internal/config"
+	"github.com/openlinkz/openlink/app/msg_api/internal/data"
+	"github.com/openlinkz/openlink/app/msg_api/internal/server"
+	"github.com/openlinkz/openlink/app/msg_api/internal/service"
 )
 
 import (

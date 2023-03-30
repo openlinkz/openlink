@@ -10,9 +10,9 @@ import (
 	"github.com/go-kratos/kratos/contrib/registry/etcd/v2"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/openlinkz/openlink/app/msg-gateway/internal/config"
-	"github.com/openlinkz/openlink/app/msg-gateway/internal/gateway"
-	"github.com/openlinkz/openlink/app/msg-gateway/internal/server"
+	"github.com/openlinkz/openlink/app/msg_gateway/internal/config"
+	"github.com/openlinkz/openlink/app/msg_gateway/internal/gateway"
+	"github.com/openlinkz/openlink/app/msg_gateway/internal/server"
 )
 
 import (
