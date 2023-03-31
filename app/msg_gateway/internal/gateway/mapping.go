@@ -16,7 +16,7 @@ type UserConnMapping struct {
 	mu sync.RWMutex
 }
 
-func (m *UserConnMapping) Add(uid string, conn *UserConnection) {
+func (m *UserConnMapping) Add(uid string, conn *Session) {
 	m.mu.Lock()
 	if m.userConns[uid] == nil {
 		m.userConns[uid] = list.New()
@@ -25,7 +25,7 @@ func (m *UserConnMapping) Add(uid string, conn *UserConnection) {
 	m.mu.Unlock()
 }
 
-func (m *UserConnMapping) Delete(uid string, conn *UserConnection) {
+func (m *UserConnMapping) Delete(uid string, conn *Session) {
 	// todo
 	m.mu.Lock()
 	conns, has := m.userConns[uid]
@@ -36,7 +36,7 @@ func (m *UserConnMapping) Delete(uid string, conn *UserConnection) {
 	m.mu.Unlock()
 }
 
-func (m *UserConnMapping) Get(uid string, platform protocol.Platform) (userConns []*UserConnection) {
+func (m *UserConnMapping) Get(uid string, platform protocol.Platform) (userConns []*Session) {
 	m.mu.RLock()
 	conns, has := m.userConns[uid]
 	m.mu.RUnlock()
@@ -44,8 +44,8 @@ func (m *UserConnMapping) Get(uid string, platform protocol.Platform) (userConns
 		return
 	}
 	for i := conns.Front(); i != nil; i = i.Next() {
-		uc := i.Value.(*UserConnection)
-		if uc.platform == platform {
+		uc := i.Value.(*Session)
+		if uc.Platform == platform {
 			userConns = append(userConns, uc)
 		}
 	}
@@ -53,16 +53,16 @@ func (m *UserConnMapping) Get(uid string, platform protocol.Platform) (userConns
 }
 
 func NewSIDConnMapping() *SidConnMapping {
-	return &SidConnMapping{sidConn: make(map[string]*UserConnection)}
+	return &SidConnMapping{sidConn: make(map[string]*Session)}
 }
 
 type SidConnMapping struct {
-	sidConn map[string]*UserConnection
+	sidConn map[string]*Session
 
 	mu sync.RWMutex
 }
 
-func (mapping *SidConnMapping) Add(sid string, userConn *UserConnection) {
+func (mapping *SidConnMapping) Add(sid string, userConn *Session) {
 	mapping.mu.Lock()
 	mapping.sidConn[sid] = userConn
 	mapping.mu.Unlock()
@@ -74,7 +74,7 @@ func (mapping *SidConnMapping) Delete(sid string) {
 	mapping.mu.Unlock()
 }
 
-func (mapping *SidConnMapping) Get(sid string) *UserConnection {
+func (mapping *SidConnMapping) Get(sid string) *Session {
 	mapping.mu.RLock()
 	conn, _ := mapping.sidConn[sid]
 	mapping.mu.RUnlock()

@@ -5,8 +5,8 @@ import (
 	"github.com/go-kratos/kratos/v2/encoding"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/gorilla/websocket"
-	msg_api "github.com/openlinkz/openlink/api/msg_api"
-	msg_gateway "github.com/openlinkz/openlink/api/msg_gateway"
+	"github.com/openlinkz/openlink/api/msg_api"
+	"github.com/openlinkz/openlink/api/msg_gateway"
 	"github.com/openlinkz/openlink/api/protocol"
 	metrics "github.com/openlinkz/openlink/app/msg_gateway/internal/metric"
 	"github.com/openlinkz/openlink/app/msg_gateway/internal/socketid"
@@ -71,55 +71,31 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 		platform := cast.ToInt32(r.Header.Get("platform"))
 		if uid == "" {
 			// todo
-			_, _ = w.Write([]byte("websocket no uid"))
+			_, _ = w.Write([]byte("websocket no UID"))
 			return
 		}
 		sid, _ := gateway.sidGenerator.NextSid()
 
-		userConn := &UserConnection{
-			conn:     conn,
-			sid:      sid,
-			uid:      uid,
-			platform: protocol.Platform(platform),
-		}
-
-		gateway.sidConnMapping.Add(sid, userConn)
-		gateway.userConnMapping.Add(uid, userConn)
-
-		// 用户连接
-		_, err = gateway.msgExchangeClient.Connect(r.Context(), &msg_api.ConnectRequest{
-			Server:   gateway.serverIP,
+		session := &Session{
+			Conn:     conn,
 			SID:      sid,
 			UID:      uid,
-			Platform: protocol.Platform_name[platform],
-		})
-		if err != nil {
+			Platform: protocol.Platform(platform),
+		}
+
+		// 用户连接
+		if err = gateway.connectSession(r.Context(), session); err != nil {
 			// todo
 			return
 		}
-		log.Infof("user connected\n")
+		// 用户断开
+		defer func() { _ = gateway.disconnectSession(r.Context(), session) }()
 
-		metrics.GatewayOnlineTotals.Inc()
-		clear := func() {
-			metrics.GatewayOnlineTotals.Dec()
-
-			gateway.sidConnMapping.Delete(sid)
-			gateway.userConnMapping.Delete(uid, userConn)
-
-			// 用户断开连接
-			_, _ = gateway.msgExchangeClient.Disconnect(r.Context(), &msg_api.DisconnectRequest{Server: gateway.serverIP, SID: sid})
-			_ = conn.Close()
-
-			log.Infof("conn closed. sid: %d\n", sid)
-		}
-		defer clear()
-
-		log.Infof("conn connect. sid: %d", sid)
 		// proto 序列化
 		codec := encoding.GetCodec(proto.Name)
 
 		for {
-			_, data, err := conn.ReadMessage()
+			_, data, err := session.ReadMessage()
 			if err != nil {
 				log.Errorf("read message err: %s", err.Error())
 				break
@@ -134,18 +110,68 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 			}
 
 			if protoMsg.Type == protocol.Type_name[int32(protocol.Type_HEARTBEAT)] {
-				_, _ = gateway.msgExchangeClient.KeepAlive(context.Background(), &msg_api.KeepAliveRequest{Server: gateway.serverIP, SID: sid, UID: ""})
+				if err = gateway.keepAliveSession(r.Context(), session); err != nil {
+					log.Errorf("conn keepalive failed. SID: %s. UID: %s", session.SID, session.UID)
+					continue
+				}
 			}
 
-			if _, err = gateway.msgExchangeClient.SendMsg(context.Background(), &msg_api.Msg{
-				Server:   gateway.serverIP,
-				SID:      sid,
+			if err = gateway.SendMsg(r.Context(), &msg_api.Msg{
+				Server:   session.ServerIP,
+				SID:      session.SID,
 				Protocol: protoMsg,
 			}); err != nil {
-				log.Errorf("send msghandler err: %s", err.Error())
+				log.Errorf("send msg err: %s", err.Error())
+				continue
 			}
 		}
 	}
+}
+
+func (gateway *MsgGateway) connectSession(ctx context.Context, session *Session) (err error) {
+	if _, err = gateway.msgExchangeClient.Connect(ctx, &msg_api.ConnectRequest{
+		Server:   session.ServerIP,
+		SID:      session.SID,
+		UID:      session.UID,
+		Platform: session.Platform.String(),
+	}); err != nil {
+		return
+	}
+	log.Infof("user connected\n")
+
+	gateway.sidConnMapping.Add(session.SID, session)
+	gateway.userConnMapping.Add(session.UID, session)
+
+	metrics.GatewayOnlineTotals.Inc()
+	return
+}
+
+func (gateway *MsgGateway) disconnectSession(ctx context.Context, session *Session) (err error) {
+	_ = session.Close()
+
+	metrics.GatewayOnlineTotals.Dec()
+
+	gateway.sidConnMapping.Delete(session.SID)
+	gateway.userConnMapping.Delete(session.UID, session)
+
+	// 用户断开连接
+	_, err = gateway.msgExchangeClient.Disconnect(ctx, &msg_api.DisconnectRequest{Server: gateway.serverIP, SID: session.SID})
+	if err != nil {
+		log.Errorf("conn closed. SID: %d\n", session.SID)
+		return
+	}
+	log.Infof("conn closed. SID: %d\n", session.SID)
+	return
+}
+
+func (gateway *MsgGateway) keepAliveSession(ctx context.Context, session *Session) (err error) {
+	_, err = gateway.msgExchangeClient.KeepAlive(ctx, &msg_api.KeepAliveRequest{Server: gateway.serverIP, SID: session.SID, UID: session.UID})
+	return
+}
+
+func (gateway *MsgGateway) SendMsg(ctx context.Context, msg *msg_api.Msg) (err error) {
+	_, err = gateway.msgExchangeClient.SendMsg(ctx, msg)
+	return
 }
 
 func (gateway *MsgGateway) PushMsg(ctx context.Context, protocol *msg_gateway.PushMsgReq) (*msg_gateway.PushMsgReply, error) {
