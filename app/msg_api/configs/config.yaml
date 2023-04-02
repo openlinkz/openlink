@@ -1,10 +1,10 @@
 server:
   http:
     addr: :18080
-    timeout: 5s
+    timeout: 600s
   grpc:
     addr: :18081
-    timeout: 5s
+    timeout: 600s
 registry:
   etcd:
     addr: localhost:2379

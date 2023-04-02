@@ -1,10 +1,10 @@
 server:
   http:
     addr: :28080
-    timeout: 5s
+    timeout: 600s
   grpc:
     addr: :28081
-    timeout: 5s
+    timeout: 600s
 client:
   wsAPI:
     addr: discovery:///msg_api

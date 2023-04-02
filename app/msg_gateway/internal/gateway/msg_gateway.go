@@ -11,12 +11,14 @@ import (
 	"github.com/openlinkz/openlink/api/protocol"
 	metrics "github.com/openlinkz/openlink/app/msg_gateway/internal/metric"
 	"github.com/openlinkz/openlink/app/msg_gateway/internal/socketid"
-	"github.com/openlinkz/openlink/pkg/encoding/proto"
+	"github.com/openlinkz/openlink/pkg/encoding/json"
 	"github.com/openlinkz/openlink/pkg/netutil"
 	"github.com/spf13/cast"
 	"net/http"
 	"sync"
 )
+
+const _defaultMaxConnection = 50000
 
 type MsgGatewayOption func(*MsgGateway)
 
@@ -34,11 +36,12 @@ func MsgGatewayOptionMsgExchangeServiceClient(c msg_api.MsgExchangeServiceClient
 
 func NewMsgGateway(opts ...MsgGatewayOption) *MsgGateway {
 	gateway := &MsgGateway{
-		sidGenerator:    socketid.NewAtomicGenerator(0),
+		sidGenerator:    socketid.NewUUIDGenerator(),
 		upgrader:        &websocket.Upgrader{},
 		sidConnMapping:  NewSIDConnMapping(),
 		userConnMapping: NewUserConnMapping(),
 		serverIP:        netutil.LocalIPString(),
+		maxConnection:   _defaultMaxConnection,
 	}
 
 	for _, opt := range opts {
@@ -56,6 +59,7 @@ type MsgGateway struct {
 	sidConnMapping    *SidConnMapping
 	userConnMapping   *UserConnMapping
 	serverIP          string
+	maxConnection     int
 
 	mu sync.Mutex
 }
@@ -64,13 +68,12 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, err := gateway.upgrader.Upgrade(w, r, nil)
 		if err != nil {
-			// todo
-			_, _ = w.Write([]byte("websocket upgrade err: " + err.Error()))
+			renderJSON(w, &ConnectResponse{Code: -1, Message: err.Error()})
 			return
 		}
-		uid, platform, err := gateway.parseMetadataFromHeader(r.Header)
+		uid, platform, err := gateway.parseMetadataFromRequest(r)
 		if err != nil {
-			_, _ = w.Write([]byte("websocket no UID"))
+			renderJSON(w, &ConnectResponse{Code: -1, Message: err.Error()})
 			return
 		}
 		sid, _ := gateway.sidGenerator.NextSid()
@@ -79,19 +82,19 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 			Conn:     conn,
 			SID:      sid,
 			UID:      uid,
-			Platform: protocol.Platform(platform),
+			Platform: platform,
 		}
 
 		// 用户连接
 		if err = gateway.connectSession(r.Context(), session); err != nil {
-			// todo
+			renderJSON(w, &ConnectResponse{Code: -1, Message: err.Error()})
 			return
 		}
 		// 用户断开
 		defer func() { _ = gateway.disconnectSession(r.Context(), session) }()
 
 		// proto 序列化
-		codec := encoding.GetCodec(proto.Name)
+		codec := encoding.GetCodec(json.Name)
 
 		for {
 			_, data, err := session.ReadMessage()
@@ -154,7 +157,7 @@ func (gateway *MsgGateway) disconnectSession(ctx context.Context, session *Sessi
 		log.Errorf("conn closed. SID: %d\n", session.SID)
 		return
 	}
-	log.Infof("conn closed. SID: %d\n", session.SID)
+	log.Infof("conn closed. SID: %s\n", session.SID)
 	return
 }
 
@@ -205,13 +208,14 @@ func (gateway *MsgGateway) pushOne(_ context.Context, sid string, protocol *prot
 	return
 }
 
-func (gateway *MsgGateway) parseMetadataFromHeader(header http.Header) (string, protocol.Platform, error) {
-	uid := header.Get("uid")
+func (gateway *MsgGateway) parseMetadataFromRequest(r *http.Request) (string, protocol.Platform, error) {
+	_ = r.ParseForm()
+	uid := r.Form.Get("uid")
 	if uid == "" {
 		return "", 0, fmt.Errorf("uid must not empty")
 	}
 
-	platform, err := cast.ToInt32E(header.Get("platform"))
+	platform, err := cast.ToInt32E(r.Form.Get("platform"))
 	if err != nil {
 		return "", 0, fmt.Errorf("platform is invalid. %s", err.Error())
 	}

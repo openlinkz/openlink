@@ -3,12 +3,15 @@ package gateway
 import (
 	"github.com/gorilla/websocket"
 	"github.com/openlinkz/openlink/api/protocol"
+	"github.com/pkg/errors"
 	"sync"
+	"sync/atomic"
 )
 
 type Session struct {
 	*websocket.Conn
 	mu       sync.Mutex
+	closed   atomic.Int32
 	ServerIP string
 	SID      string
 	UID      string
@@ -16,5 +19,8 @@ type Session struct {
 }
 
 func (sess *Session) Close() error {
-	return sess.Close()
+	if !sess.closed.CompareAndSwap(0, 1) {
+		return errors.New("session has closed")
+	}
+	return sess.Conn.Close()
 }
