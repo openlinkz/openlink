@@ -21,12 +21,8 @@ message Server {
 }
 
 message Data {
-  message Redis {
-    string addr = 1;
-    int64 db = 2;
-    string password = 3;
-  }
   Redis redis = 1;
+  Kafka kafka = 2;
 }
 
 message Registry {
@@ -35,4 +31,14 @@ message Registry {
     google.protobuf.Duration dialTimeout = 2;
   }
   ETCD etcd = 1;
+}
+
+message Redis {
+  string addr = 1;
+  int64 db = 2;
+  string password = 3;
+}
+
+message Kafka {
+  repeated string addrs = 1;
 }

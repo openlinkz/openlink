@@ -16,7 +16,9 @@ service MsgExchangeService {
 message Msg {
   string server = 1;
   string SID = 2;
-  msg.protocol.Protocol protocol = 3;
+  string UID = 3;
+  protocol.Platform platform = 4;
+  msg.protocol.Protocol protocol = 5;
 }
 
 message UserConnectionInfo {}

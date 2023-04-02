@@ -9,3 +9,12 @@ registry:
   etcd:
     addr: localhost:2379
     dialTimeout: 3s
+data:
+  redis:
+    addr: localhost:6379
+    db: 0
+    password: root
+  kafka:
+    addrs:
+      - localhost:9092
+

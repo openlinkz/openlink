@@ -15,4 +15,7 @@ message PushMsgReq {
   msg.protocol.Protocol protocol = 2;
 }
 
-message PushMsgReply {}
+message PushMsgReply {
+  int32 successTotal = 1;
+  int32 failedTotal = 2;
+}

@@ -23,9 +23,12 @@ type MsgExchangeService struct {
 }
 
 func (svc *MsgExchangeService) SendMsg(ctx context.Context, msg *msg_api.Msg) (*msg_api.SendMsgReply, error) {
-	return nil, svc.msgExchangeBiz.Send(ctx, &domain.Msg{
-		Type:    msg.Protocol.Type,
-		Payload: msg.Protocol.Payload,
+	return nil, svc.msgExchangeBiz.Send(ctx, &domain.Message{
+		ServerIP: msg.Server,
+		SID:      msg.SID,
+		UID:      msg.UID,
+		Platform: domain.PlatformFrom(int(msg.Platform)),
+		Body:     domain.MsgBody{Type: msg.Protocol.Type, Payload: msg.Protocol.Payload},
 	})
 }
 

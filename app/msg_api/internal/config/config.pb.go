@@ -35,7 +35,7 @@ type Bootstrap struct {
 func (x *Bootstrap) Reset() {
 	*x = Bootstrap{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[0]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -48,7 +48,7 @@ func (x *Bootstrap) String() string {
 func (*Bootstrap) ProtoMessage() {}
 
 func (x *Bootstrap) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[0]
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *Bootstrap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Bootstrap.ProtoReflect.Descriptor instead.
 func (*Bootstrap) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{0}
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Bootstrap) GetServer() *Server {
@@ -97,7 +97,7 @@ type Server struct {
 func (x *Server) Reset() {
 	*x = Server{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[1]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -110,7 +110,7 @@ func (x *Server) String() string {
 func (*Server) ProtoMessage() {}
 
 func (x *Server) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[1]
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -123,7 +123,7 @@ func (x *Server) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Server.ProtoReflect.Descriptor instead.
 func (*Server) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{1}
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Server) GetHttp() *server.Config {
@@ -145,13 +145,14 @@ type Data struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Redis *Data_Redis `protobuf:"bytes,1,opt,name=redis,proto3" json:"redis,omitempty"`
+	Redis *Redis `protobuf:"bytes,1,opt,name=redis,proto3" json:"redis,omitempty"`
+	Kafka *Kafka `protobuf:"bytes,2,opt,name=kafka,proto3" json:"kafka,omitempty"`
 }
 
 func (x *Data) Reset() {
 	*x = Data{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[2]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -164,7 +165,7 @@ func (x *Data) String() string {
 func (*Data) ProtoMessage() {}
 
 func (x *Data) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[2]
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,12 +178,19 @@ func (x *Data) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Data.ProtoReflect.Descriptor instead.
 func (*Data) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{2}
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Data) GetRedis() *Data_Redis {
+func (x *Data) GetRedis() *Redis {
 	if x != nil {
 		return x.Redis
+	}
+	return nil
+}
+
+func (x *Data) GetKafka() *Kafka {
+	if x != nil {
+		return x.Kafka
 	}
 	return nil
 }
@@ -198,7 +206,7 @@ type Registry struct {
 func (x *Registry) Reset() {
 	*x = Registry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[3]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -211,7 +219,7 @@ func (x *Registry) String() string {
 func (*Registry) ProtoMessage() {}
 
 func (x *Registry) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[3]
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -224,7 +232,7 @@ func (x *Registry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Registry.ProtoReflect.Descriptor instead.
 func (*Registry) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{3}
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Registry) GetEtcd() *Registry_ETCD {
@@ -234,7 +242,7 @@ func (x *Registry) GetEtcd() *Registry_ETCD {
 	return nil
 }
 
-type Data_Redis struct {
+type Redis struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -244,23 +252,23 @@ type Data_Redis struct {
 	Password string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
 }
 
-func (x *Data_Redis) Reset() {
-	*x = Data_Redis{}
+func (x *Redis) Reset() {
+	*x = Redis{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[4]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (x *Data_Redis) String() string {
+func (x *Redis) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Data_Redis) ProtoMessage() {}
+func (*Redis) ProtoMessage() {}
 
-func (x *Data_Redis) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[4]
+func (x *Redis) ProtoReflect() protoreflect.Message {
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -271,30 +279,77 @@ func (x *Data_Redis) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Data_Redis.ProtoReflect.Descriptor instead.
-func (*Data_Redis) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{2, 0}
+// Deprecated: Use Redis.ProtoReflect.Descriptor instead.
+func (*Redis) Descriptor() ([]byte, []int) {
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *Data_Redis) GetAddr() string {
+func (x *Redis) GetAddr() string {
 	if x != nil {
 		return x.Addr
 	}
 	return ""
 }
 
-func (x *Data_Redis) GetDb() int64 {
+func (x *Redis) GetDb() int64 {
 	if x != nil {
 		return x.Db
 	}
 	return 0
 }
 
-func (x *Data_Redis) GetPassword() string {
+func (x *Redis) GetPassword() string {
 	if x != nil {
 		return x.Password
 	}
 	return ""
+}
+
+type Kafka struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Addrs []string `protobuf:"bytes,1,rep,name=addrs,proto3" json:"addrs,omitempty"`
+}
+
+func (x *Kafka) Reset() {
+	*x = Kafka{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Kafka) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Kafka) ProtoMessage() {}
+
+func (x *Kafka) ProtoReflect() protoreflect.Message {
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Kafka.ProtoReflect.Descriptor instead.
+func (*Kafka) Descriptor() ([]byte, []int) {
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Kafka) GetAddrs() []string {
+	if x != nil {
+		return x.Addrs
+	}
+	return nil
 }
 
 type Registry_ETCD struct {
@@ -309,7 +364,7 @@ type Registry_ETCD struct {
 func (x *Registry_ETCD) Reset() {
 	*x = Registry_ETCD{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_app_ws_api_internal_config_config_proto_msgTypes[5]
+		mi := &file_app_msg_api_internal_config_config_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -322,7 +377,7 @@ func (x *Registry_ETCD) String() string {
 func (*Registry_ETCD) ProtoMessage() {}
 
 func (x *Registry_ETCD) ProtoReflect() protoreflect.Message {
-	mi := &file_app_ws_api_internal_config_config_proto_msgTypes[5]
+	mi := &file_app_msg_api_internal_config_config_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -335,7 +390,7 @@ func (x *Registry_ETCD) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Registry_ETCD.ProtoReflect.Descriptor instead.
 func (*Registry_ETCD) Descriptor() ([]byte, []int) {
-	return file_app_ws_api_internal_config_config_proto_rawDescGZIP(), []int{3, 0}
+	return file_app_msg_api_internal_config_config_proto_rawDescGZIP(), []int{3, 0}
 }
 
 func (x *Registry_ETCD) GetAddr() string {
@@ -352,97 +407,103 @@ func (x *Registry_ETCD) GetDialTimeout() *durationpb.Duration {
 	return nil
 }
 
-var File_app_ws_api_internal_config_config_proto protoreflect.FileDescriptor
+var File_app_msg_api_internal_config_config_proto protoreflect.FileDescriptor
 
-var file_app_ws_api_internal_config_config_proto_rawDesc = []byte{
-	0x0a, 0x27, 0x61, 0x70, 0x70, 0x2f, 0x77, 0x73, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x6e, 0x74,
-	0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x77, 0x73, 0x61, 0x70, 0x69,
-	0x1a, 0x13, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x80, 0x01, 0x0a, 0x09, 0x42, 0x6f, 0x6f, 0x74, 0x73, 0x74,
-	0x72, 0x61, 0x70, 0x12, 0x25, 0x0a, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72, 0x76,
-	0x65, 0x72, 0x52, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x2b, 0x0a, 0x08, 0x72, 0x65,
-	0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x77,
-	0x73, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x52, 0x08, 0x72,
-	0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x12, 0x1f, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x44, 0x61,
-	0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x50, 0x0a, 0x06, 0x53, 0x65, 0x72, 0x76,
-	0x65, 0x72, 0x12, 0x22, 0x0a, 0x04, 0x68, 0x74, 0x74, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x0e, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
-	0x52, 0x04, 0x68, 0x74, 0x74, 0x70, 0x12, 0x22, 0x0a, 0x04, 0x67, 0x72, 0x70, 0x63, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x52, 0x04, 0x67, 0x72, 0x70, 0x63, 0x22, 0x78, 0x0a, 0x04, 0x44, 0x61,
-	0x74, 0x61, 0x12, 0x27, 0x0a, 0x05, 0x72, 0x65, 0x64, 0x69, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x11, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x2e, 0x52,
-	0x65, 0x64, 0x69, 0x73, 0x52, 0x05, 0x72, 0x65, 0x64, 0x69, 0x73, 0x1a, 0x47, 0x0a, 0x05, 0x52,
+var file_app_msg_api_internal_config_config_proto_rawDesc = []byte{
+	0x0a, 0x28, 0x61, 0x70, 0x70, 0x2f, 0x6d, 0x73, 0x67, 0x5f, 0x61, 0x70, 0x69, 0x2f, 0x69, 0x6e,
+	0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f, 0x63, 0x6f,
+	0x6e, 0x66, 0x69, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x77, 0x73, 0x61, 0x70,
+	0x69, 0x1a, 0x13, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x80, 0x01, 0x0a, 0x09, 0x42, 0x6f, 0x6f, 0x74, 0x73,
+	0x74, 0x72, 0x61, 0x70, 0x12, 0x25, 0x0a, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x53, 0x65, 0x72,
+	0x76, 0x65, 0x72, 0x52, 0x06, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x12, 0x2b, 0x0a, 0x08, 0x72,
+	0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e,
+	0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x52, 0x08,
+	0x72, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x12, 0x1f, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0b, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x44,
+	0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x50, 0x0a, 0x06, 0x53, 0x65, 0x72,
+	0x76, 0x65, 0x72, 0x12, 0x22, 0x0a, 0x04, 0x68, 0x74, 0x74, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x52, 0x04, 0x68, 0x74, 0x74, 0x70, 0x12, 0x22, 0x0a, 0x04, 0x67, 0x72, 0x70, 0x63, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x43,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x04, 0x67, 0x72, 0x70, 0x63, 0x22, 0x4e, 0x0a, 0x04, 0x44,
+	0x61, 0x74, 0x61, 0x12, 0x22, 0x0a, 0x05, 0x72, 0x65, 0x64, 0x69, 0x73, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x64, 0x69, 0x73,
+	0x52, 0x05, 0x72, 0x65, 0x64, 0x69, 0x73, 0x12, 0x22, 0x0a, 0x05, 0x6b, 0x61, 0x66, 0x6b, 0x61,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x4b,
+	0x61, 0x66, 0x6b, 0x61, 0x52, 0x05, 0x6b, 0x61, 0x66, 0x6b, 0x61, 0x22, 0x8d, 0x01, 0x0a, 0x08,
+	0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x12, 0x28, 0x0a, 0x04, 0x65, 0x74, 0x63, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x52,
+	0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79, 0x2e, 0x45, 0x54, 0x43, 0x44, 0x52, 0x04, 0x65, 0x74,
+	0x63, 0x64, 0x1a, 0x57, 0x0a, 0x04, 0x45, 0x54, 0x43, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x64,
+	0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x61, 0x64, 0x64, 0x72, 0x12, 0x3b,
+	0x0a, 0x0b, 0x64, 0x69, 0x61, 0x6c, 0x54, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b,
+	0x64, 0x69, 0x61, 0x6c, 0x54, 0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x22, 0x47, 0x0a, 0x05, 0x52,
 	0x65, 0x64, 0x69, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x04, 0x61, 0x64, 0x64, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x64, 0x62, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x64, 0x62, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73,
 	0x77, 0x6f, 0x72, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73,
-	0x77, 0x6f, 0x72, 0x64, 0x22, 0x8d, 0x01, 0x0a, 0x08, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72,
-	0x79, 0x12, 0x28, 0x0a, 0x04, 0x65, 0x74, 0x63, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x14, 0x2e, 0x77, 0x73, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x72, 0x79,
-	0x2e, 0x45, 0x54, 0x43, 0x44, 0x52, 0x04, 0x65, 0x74, 0x63, 0x64, 0x1a, 0x57, 0x0a, 0x04, 0x45,
-	0x54, 0x43, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x04, 0x61, 0x64, 0x64, 0x72, 0x12, 0x3b, 0x0a, 0x0b, 0x64, 0x69, 0x61, 0x6c, 0x54,
-	0x69, 0x6d, 0x65, 0x6f, 0x75, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44,
-	0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x64, 0x69, 0x61, 0x6c, 0x54, 0x69, 0x6d,
-	0x65, 0x6f, 0x75, 0x74, 0x42, 0x23, 0x5a, 0x21, 0x61, 0x70, 0x70, 0x2f, 0x77, 0x73, 0x2d, 0x61,
+	0x77, 0x6f, 0x72, 0x64, 0x22, 0x1d, 0x0a, 0x05, 0x4b, 0x61, 0x66, 0x6b, 0x61, 0x12, 0x14, 0x0a,
+	0x05, 0x61, 0x64, 0x64, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x05, 0x61, 0x64,
+	0x64, 0x72, 0x73, 0x42, 0x24, 0x5a, 0x22, 0x61, 0x70, 0x70, 0x2f, 0x6d, 0x73, 0x67, 0x5f, 0x61,
 	0x70, 0x69, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x2f, 0x63, 0x6f, 0x6e, 0x66,
 	0x69, 0x67, 0x3b, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x33,
 }
 
 var (
-	file_app_ws_api_internal_config_config_proto_rawDescOnce sync.Once
-	file_app_ws_api_internal_config_config_proto_rawDescData = file_app_ws_api_internal_config_config_proto_rawDesc
+	file_app_msg_api_internal_config_config_proto_rawDescOnce sync.Once
+	file_app_msg_api_internal_config_config_proto_rawDescData = file_app_msg_api_internal_config_config_proto_rawDesc
 )
 
-func file_app_ws_api_internal_config_config_proto_rawDescGZIP() []byte {
-	file_app_ws_api_internal_config_config_proto_rawDescOnce.Do(func() {
-		file_app_ws_api_internal_config_config_proto_rawDescData = protoimpl.X.CompressGZIP(file_app_ws_api_internal_config_config_proto_rawDescData)
+func file_app_msg_api_internal_config_config_proto_rawDescGZIP() []byte {
+	file_app_msg_api_internal_config_config_proto_rawDescOnce.Do(func() {
+		file_app_msg_api_internal_config_config_proto_rawDescData = protoimpl.X.CompressGZIP(file_app_msg_api_internal_config_config_proto_rawDescData)
 	})
-	return file_app_ws_api_internal_config_config_proto_rawDescData
+	return file_app_msg_api_internal_config_config_proto_rawDescData
 }
 
-var file_app_ws_api_internal_config_config_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_app_ws_api_internal_config_config_proto_goTypes = []interface{}{
-	(*Bootstrap)(nil),           // 0: msg_api.Bootstrap
-	(*Server)(nil),              // 1: msg_api.Server
-	(*Data)(nil),                // 2: msg_api.Data
-	(*Registry)(nil),            // 3: msg_api.Registry
-	(*Data_Redis)(nil),          // 4: msg_api.Data.Redis
-	(*Registry_ETCD)(nil),       // 5: msg_api.Registry.ETCD
-	(*server.Config)(nil),       // 6: server.Config
-	(*durationpb.Duration)(nil), // 7: google.protobuf.Duration
+var file_app_msg_api_internal_config_config_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_app_msg_api_internal_config_config_proto_goTypes = []interface{}{
+	(*Bootstrap)(nil),           // 0: wsapi.Bootstrap
+	(*Server)(nil),              // 1: wsapi.Server
+	(*Data)(nil),                // 2: wsapi.Data
+	(*Registry)(nil),            // 3: wsapi.Registry
+	(*Redis)(nil),               // 4: wsapi.Redis
+	(*Kafka)(nil),               // 5: wsapi.Kafka
+	(*Registry_ETCD)(nil),       // 6: wsapi.Registry.ETCD
+	(*server.Config)(nil),       // 7: server.Config
+	(*durationpb.Duration)(nil), // 8: google.protobuf.Duration
 }
-var file_app_ws_api_internal_config_config_proto_depIdxs = []int32{
-	1, // 0: msg_api.Bootstrap.server:type_name -> msg_api.Server
-	3, // 1: msg_api.Bootstrap.registry:type_name -> msg_api.Registry
-	2, // 2: msg_api.Bootstrap.data:type_name -> msg_api.Data
-	6, // 3: msg_api.Server.http:type_name -> server.Config
-	6, // 4: msg_api.Server.grpc:type_name -> server.Config
-	4, // 5: msg_api.Data.redis:type_name -> msg_api.Data.Redis
-	5, // 6: msg_api.Registry.etcd:type_name -> msg_api.Registry.ETCD
-	7, // 7: msg_api.Registry.ETCD.dialTimeout:type_name -> google.protobuf.Duration
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+var file_app_msg_api_internal_config_config_proto_depIdxs = []int32{
+	1, // 0: wsapi.Bootstrap.server:type_name -> wsapi.Server
+	3, // 1: wsapi.Bootstrap.registry:type_name -> wsapi.Registry
+	2, // 2: wsapi.Bootstrap.data:type_name -> wsapi.Data
+	7, // 3: wsapi.Server.http:type_name -> server.Config
+	7, // 4: wsapi.Server.grpc:type_name -> server.Config
+	4, // 5: wsapi.Data.redis:type_name -> wsapi.Redis
+	5, // 6: wsapi.Data.kafka:type_name -> wsapi.Kafka
+	6, // 7: wsapi.Registry.etcd:type_name -> wsapi.Registry.ETCD
+	8, // 8: wsapi.Registry.ETCD.dialTimeout:type_name -> google.protobuf.Duration
+	9, // [9:9] is the sub-list for method output_type
+	9, // [9:9] is the sub-list for method input_type
+	9, // [9:9] is the sub-list for extension type_name
+	9, // [9:9] is the sub-list for extension extendee
+	0, // [0:9] is the sub-list for field type_name
 }
 
-func init() { file_app_ws_api_internal_config_config_proto_init() }
-func file_app_ws_api_internal_config_config_proto_init() {
-	if File_app_ws_api_internal_config_config_proto != nil {
+func init() { file_app_msg_api_internal_config_config_proto_init() }
+func file_app_msg_api_internal_config_config_proto_init() {
+	if File_app_msg_api_internal_config_config_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_app_ws_api_internal_config_config_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_app_msg_api_internal_config_config_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Bootstrap); i {
 			case 0:
 				return &v.state
@@ -454,7 +515,7 @@ func file_app_ws_api_internal_config_config_proto_init() {
 				return nil
 			}
 		}
-		file_app_ws_api_internal_config_config_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_app_msg_api_internal_config_config_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Server); i {
 			case 0:
 				return &v.state
@@ -466,7 +527,7 @@ func file_app_ws_api_internal_config_config_proto_init() {
 				return nil
 			}
 		}
-		file_app_ws_api_internal_config_config_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_app_msg_api_internal_config_config_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Data); i {
 			case 0:
 				return &v.state
@@ -478,7 +539,7 @@ func file_app_ws_api_internal_config_config_proto_init() {
 				return nil
 			}
 		}
-		file_app_ws_api_internal_config_config_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_app_msg_api_internal_config_config_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Registry); i {
 			case 0:
 				return &v.state
@@ -490,8 +551,8 @@ func file_app_ws_api_internal_config_config_proto_init() {
 				return nil
 			}
 		}
-		file_app_ws_api_internal_config_config_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Data_Redis); i {
+		file_app_msg_api_internal_config_config_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Redis); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -502,7 +563,19 @@ func file_app_ws_api_internal_config_config_proto_init() {
 				return nil
 			}
 		}
-		file_app_ws_api_internal_config_config_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_app_msg_api_internal_config_config_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Kafka); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_app_msg_api_internal_config_config_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Registry_ETCD); i {
 			case 0:
 				return &v.state
@@ -519,18 +592,18 @@ func file_app_ws_api_internal_config_config_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_app_ws_api_internal_config_config_proto_rawDesc,
+			RawDescriptor: file_app_msg_api_internal_config_config_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_app_ws_api_internal_config_config_proto_goTypes,
-		DependencyIndexes: file_app_ws_api_internal_config_config_proto_depIdxs,
-		MessageInfos:      file_app_ws_api_internal_config_config_proto_msgTypes,
+		GoTypes:           file_app_msg_api_internal_config_config_proto_goTypes,
+		DependencyIndexes: file_app_msg_api_internal_config_config_proto_depIdxs,
+		MessageInfos:      file_app_msg_api_internal_config_config_proto_msgTypes,
 	}.Build()
-	File_app_ws_api_internal_config_config_proto = out.File
-	file_app_ws_api_internal_config_config_proto_rawDesc = nil
-	file_app_ws_api_internal_config_config_proto_goTypes = nil
-	file_app_ws_api_internal_config_config_proto_depIdxs = nil
+	File_app_msg_api_internal_config_config_proto = out.File
+	file_app_msg_api_internal_config_config_proto_rawDesc = nil
+	file_app_msg_api_internal_config_config_proto_goTypes = nil
+	file_app_msg_api_internal_config_config_proto_depIdxs = nil
 }

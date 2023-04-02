@@ -13,6 +13,6 @@ type MsgExchangeBiz struct {
 	msgRepo domain.MsgRepo
 }
 
-func (biz *MsgExchangeBiz) Send(ctx context.Context, msg *domain.Msg) error {
+func (biz *MsgExchangeBiz) Send(ctx context.Context, msg *domain.Message) error {
 	return biz.msgRepo.SendMsg(ctx, msg)
 }

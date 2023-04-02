@@ -14,6 +14,6 @@ import (
 	"github.com/openlinkz/openlink/app/msg_api/internal/service"
 )
 
-func initApp(*config.Server, *config.Registry, log.Logger) (*kratos.App, error) {
+func initApp(*config.Server, *config.Registry, *config.Redis, *config.Kafka, log.Logger) (*kratos.App, error) {
 	panic(wire.Build(data.ProviderSet, biz.ProviderSet, service.ProviderSet, server.ProviderSet, newApp))
 }

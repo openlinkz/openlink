@@ -39,7 +39,7 @@ func main() {
 	if err := c.Scan(&bc); err != nil {
 		panic(errors.WithStack(err))
 	}
-	app, err := initApp(bc.Server, bc.Registry, log.DefaultLogger)
+	app, err := initApp(bc.Server, bc.Registry, bc.Data.Redis, bc.Data.Kafka, log.DefaultLogger)
 	if err != nil {
 		panic(errors.WithStack(err))
 	}

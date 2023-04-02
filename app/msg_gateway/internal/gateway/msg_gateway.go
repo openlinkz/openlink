@@ -2,6 +2,7 @@ package gateway
 
 import (
 	"context"
+	"fmt"
 	"github.com/go-kratos/kratos/v2/encoding"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/gorilla/websocket"
@@ -100,7 +101,6 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 				log.Errorf("read message err: %s", err.Error())
 				break
 			}
-
 			metrics.GatewayInputBytes.Add(float64(len(data)))
 
 			protoMsg := &protocol.Protocol{}
@@ -116,11 +116,7 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 				}
 			}
 
-			if err = gateway.SendMsg(r.Context(), &msg_api.Msg{
-				Server:   session.ServerIP,
-				SID:      session.SID,
-				Protocol: protoMsg,
-			}); err != nil {
+			if err = gateway.SendMsg(r.Context(), &msg_api.Msg{Server: session.ServerIP, SID: session.SID, Protocol: protoMsg}); err != nil {
 				log.Errorf("send msg err: %s", err.Error())
 				continue
 			}
@@ -174,6 +170,32 @@ func (gateway *MsgGateway) SendMsg(ctx context.Context, msg *msg_api.Msg) (err e
 	return
 }
 
-func (gateway *MsgGateway) PushMsg(ctx context.Context, protocol *msg_gateway.PushMsgReq) (*msg_gateway.PushMsgReply, error) {
-	return nil, nil
+func (gateway *MsgGateway) PushMsg(ctx context.Context, pushMsgReq *msg_gateway.PushMsgReq) (*msg_gateway.PushMsgReply, error) {
+	var (
+		successTotal, failedTotal int32
+		err                       error
+	)
+	for _, sid := range pushMsgReq.SIDs {
+		if err = gateway.pushOne(ctx, sid, pushMsgReq.Protocol); err != nil {
+			failedTotal++
+			continue
+		}
+		successTotal++
+	}
+	return &msg_gateway.PushMsgReply{SuccessTotal: successTotal, FailedTotal: failedTotal}, nil
+}
+
+func (gateway *MsgGateway) pushOne(ctx context.Context, sid string, protocol *protocol.Protocol) (err error) {
+	session := gateway.sidConnMapping.Get(sid)
+	if session == nil {
+		err = fmt.Errorf("sid not found")
+		return
+	}
+	body, err := encoding.GetCodec("proto").Marshal(protocol)
+	if err != nil {
+		err = fmt.Errorf("proto marshal failed")
+		return
+	}
+	err = session.WriteMessage(websocket.TextMessage, body)
+	return
 }

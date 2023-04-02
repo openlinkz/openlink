@@ -31,6 +31,7 @@ func NewRegistry(conf *config.Registry) registry.Registrar {
 	if err != nil {
 		panic(err)
 	}
+	// todo connect async. check client healthy before use.
 	return etcd.New(client)
 }
 

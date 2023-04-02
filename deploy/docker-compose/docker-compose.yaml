@@ -1,15 +1,15 @@
 version: "3.3"
 
 services:
-  ws-gateway:
+  msg_gateway:
     container_name: msg_gateway
-    image: ws-gateway
+    image: msg_gateway
     environment:
       APP_NAME: msg_gateway
     ports:
       - "8080:8080"
     depends_on:
-      - ws-api
+      - msg_api
     deploy:
       resources:
         limits:
@@ -21,9 +21,9 @@ services:
     command:
       - /app/msg_gateway
       - --ws_api_endpoint=msg_api:8081
-  ws-api:
+  msg_api:
     container_name: msg_api
-    image: ws-api
+    image: msg_api
     environment:
       APP_NAME: msg_api
     ports:
@@ -36,3 +36,30 @@ services:
         reservations:
           cpus: '1'
           memory: 2G
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    restart: always
+    ports:
+      - "9092:9092"
+    environment:
+      TZ: Asia/Shanghai
+      KAFKA_BROKER_ID: 0
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "ws2ms_chat:8:1,ms2ps_chat:8:1,msg_to_mongo:8:1"
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://127.0.0.1:9092,OUTSIDE://103.116.45.174:9092
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT"
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    depends_on:
+      - zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    container_name: zookeeper
+    volumes:
+      - /etc/localtime:/etc/localtime
+    environment:
+      TZ: Asia/Shanghai
+    restart: always

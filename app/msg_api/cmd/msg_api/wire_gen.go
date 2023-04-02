@@ -22,10 +22,12 @@ import (
 
 // Injectors from wire.go:
 
-func initApp(configServer *config.Server, registry *config.Registry, logger log.Logger) (*kratos.App, error) {
-	msgRepo := data.NewMsgRepo()
+func initApp(configServer *config.Server, registry *config.Registry, redis *config.Redis, kafka *config.Kafka, logger log.Logger) (*kratos.App, error) {
+	syncProducer := data.NewKafkaSyncProducer(kafka)
+	msgRepo := data.NewMsgRepo(syncProducer)
 	msgExchangeBiz := biz.NewMsgExchangeBiz(msgRepo)
-	userStatusRepo := data.NewUserStatusRepo()
+	client := data.NewRedisClient(redis)
+	userStatusRepo := data.NewUserStatusRepo(client)
 	userStatusBiz := biz.NewUserStatusBiz(userStatusRepo)
 	msgExchangeService := service.NewMsgExchangeService(msgExchangeBiz, userStatusBiz)
 	v := server.NewServers(configServer, msgExchangeService)
