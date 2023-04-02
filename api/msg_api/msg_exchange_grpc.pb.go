@@ -38,7 +38,7 @@ func NewMsgExchangeServiceClient(cc grpc.ClientConnInterface) MsgExchangeService
 
 func (c *msgExchangeServiceClient) SendMsg(ctx context.Context, in *Msg, opts ...grpc.CallOption) (*SendMsgReply, error) {
 	out := new(SendMsgReply)
-	err := c.cc.Invoke(ctx, "/msg.api.MsgExchangeService/SendMsg", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgExchangeService/SendMsg", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *msgExchangeServiceClient) SendMsg(ctx context.Context, in *Msg, opts ..
 
 func (c *msgExchangeServiceClient) Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectReply, error) {
 	out := new(ConnectReply)
-	err := c.cc.Invoke(ctx, "/msg.api.MsgExchangeService/Connect", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgExchangeService/Connect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *msgExchangeServiceClient) Connect(ctx context.Context, in *ConnectReque
 
 func (c *msgExchangeServiceClient) Disconnect(ctx context.Context, in *DisconnectRequest, opts ...grpc.CallOption) (*DisconnectReply, error) {
 	out := new(DisconnectReply)
-	err := c.cc.Invoke(ctx, "/msg.api.MsgExchangeService/Disconnect", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgExchangeService/Disconnect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *msgExchangeServiceClient) Disconnect(ctx context.Context, in *Disconnec
 
 func (c *msgExchangeServiceClient) KeepAlive(ctx context.Context, in *KeepAliveRequest, opts ...grpc.CallOption) (*KeepAliveReply, error) {
 	out := new(KeepAliveReply)
-	err := c.cc.Invoke(ctx, "/msg.api.MsgExchangeService/KeepAlive", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgExchangeService/KeepAlive", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func _MsgExchangeService_SendMsg_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.api.MsgExchangeService/SendMsg",
+		FullMethod: "/api.msg.api.MsgExchangeService/SendMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgExchangeServiceServer).SendMsg(ctx, req.(*Msg))
@@ -140,7 +140,7 @@ func _MsgExchangeService_Connect_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.api.MsgExchangeService/Connect",
+		FullMethod: "/api.msg.api.MsgExchangeService/Connect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgExchangeServiceServer).Connect(ctx, req.(*ConnectRequest))
@@ -158,7 +158,7 @@ func _MsgExchangeService_Disconnect_Handler(srv interface{}, ctx context.Context
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.api.MsgExchangeService/Disconnect",
+		FullMethod: "/api.msg.api.MsgExchangeService/Disconnect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgExchangeServiceServer).Disconnect(ctx, req.(*DisconnectRequest))
@@ -176,7 +176,7 @@ func _MsgExchangeService_KeepAlive_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.api.MsgExchangeService/KeepAlive",
+		FullMethod: "/api.msg.api.MsgExchangeService/KeepAlive",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgExchangeServiceServer).KeepAlive(ctx, req.(*KeepAliveRequest))
@@ -188,7 +188,7 @@ func _MsgExchangeService_KeepAlive_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var MsgExchangeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "msg.api.MsgExchangeService",
+	ServiceName: "api.msg.api.MsgExchangeService",
 	HandlerType: (*MsgExchangeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

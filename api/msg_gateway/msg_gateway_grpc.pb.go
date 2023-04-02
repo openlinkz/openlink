@@ -35,7 +35,7 @@ func NewMsgGatewayServiceClient(cc grpc.ClientConnInterface) MsgGatewayServiceCl
 
 func (c *msgGatewayServiceClient) PushMsg(ctx context.Context, in *PushMsgReq, opts ...grpc.CallOption) (*PushMsgReply, error) {
 	out := new(PushMsgReply)
-	err := c.cc.Invoke(ctx, "/msg.gateway.MsgGatewayService/PushMsg", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.gateway.MsgGatewayService/PushMsg", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _MsgGatewayService_PushMsg_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.gateway.MsgGatewayService/PushMsg",
+		FullMethod: "/api.msg.gateway.MsgGatewayService/PushMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgGatewayServiceServer).PushMsg(ctx, req.(*PushMsgReq))
@@ -92,7 +92,7 @@ func _MsgGatewayService_PushMsg_Handler(srv interface{}, ctx context.Context, de
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var MsgGatewayService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "msg.gateway.MsgGatewayService",
+	ServiceName: "api.msg.gateway.MsgGatewayService",
 	HandlerType: (*MsgGatewayServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

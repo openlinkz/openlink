@@ -1,13 +1,19 @@
 syntax = "proto3";
 
-package msg.gateway;
+package api.msg.gateway;
 
 option go_package = "github.com/openlinkz/openlink/api/msg_gateway";
 
-import "protocol/protocol.proto";
+import "api/protocol/protocol.proto";
+import "google/api/annotations.proto";
 
 service MsgGatewayService {
-  rpc PushMsg(PushMsgReq) returns (PushMsgReply);
+  rpc PushMsg(PushMsgReq) returns (PushMsgReply) {
+    option(google.api.http) = {
+      post: "/gateway/push_msg",
+      body: "*"
+    };
+  }
 }
 
 message PushMsgReq {

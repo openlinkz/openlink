@@ -35,7 +35,7 @@ func NewMsgAPIServiceClient(cc grpc.ClientConnInterface) MsgAPIServiceClient {
 
 func (c *msgAPIServiceClient) Push(ctx context.Context, in *BizMsg, opts ...grpc.CallOption) (*PushBizMsgReply, error) {
 	out := new(PushBizMsgReply)
-	err := c.cc.Invoke(ctx, "/msg.api.MsgAPIService/Push", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgAPIService/Push", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _MsgAPIService_Push_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/msg.api.MsgAPIService/Push",
+		FullMethod: "/api.msg.api.MsgAPIService/Push",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgAPIServiceServer).Push(ctx, req.(*BizMsg))
@@ -92,7 +92,7 @@ func _MsgAPIService_Push_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var MsgAPIService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "msg.api.MsgAPIService",
+	ServiceName: "api.msg.api.MsgAPIService",
 	HandlerType: (*MsgAPIServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

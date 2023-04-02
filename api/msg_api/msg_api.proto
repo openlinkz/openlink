@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package msg.api;
+package api.msg.api;
 
 option go_package = "github.com/openlinkz/openlink/api/msg_api";
 

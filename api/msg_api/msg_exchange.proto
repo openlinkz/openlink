@@ -1,16 +1,37 @@
 syntax = "proto3";
 
-package msg.api;
+package api.msg.api;
 
 option go_package = "github.com/openlinkz/openlink/api/msg_api";
 
-import "protocol/protocol.proto";
+import "api/protocol/protocol.proto";
+import "google/api/annotations.proto";
 
 service MsgExchangeService {
-  rpc SendMsg(Msg) returns (SendMsgReply);
-  rpc Connect(ConnectRequest) returns (ConnectReply);
-  rpc Disconnect(DisconnectRequest) returns (DisconnectReply);
-  rpc KeepAlive(KeepAliveRequest) returns (KeepAliveReply);
+  rpc SendMsg(Msg) returns (SendMsgReply){
+    option(google.api.http) = {
+      post: "/exchange/send_message",
+      body: "*"
+    };
+  }
+  rpc Connect(ConnectRequest) returns (ConnectReply) {
+    option(google.api.http) = {
+      post: "/exchange/user_connect",
+      body: "*"
+    };
+  }
+  rpc Disconnect(DisconnectRequest) returns (DisconnectReply) {
+    option(google.api.http) = {
+      post: "/exchange/user_disconnect",
+      body: "*"
+    };
+  }
+  rpc KeepAlive(KeepAliveRequest) returns (KeepAliveReply) {
+    option(google.api.http) = {
+      post: "/exchange/user_keepalive",
+      body: "*"
+    };
+  }
 }
 
 message Msg {
