@@ -4,7 +4,7 @@ package wsapi;
 
 option go_package = "app/msg_api/internal/config;config";
 
-import "server/config.proto";
+import "pkg/server/config.proto";
 import "google/protobuf/duration.proto";
 
 // protoc -I. --proto_path=/Users/y.liu/go/src/github.com/openlinkz/openlink/pkg --go_out=paths=source_relative:. app/ws-api/internal/config/config.proto
@@ -16,8 +16,8 @@ message Bootstrap {
 }
 
 message Server {
-  server.Config http = 1;
-  server.Config grpc = 2;
+  pkg.server.Config http = 1;
+  pkg.server.Config grpc = 2;
 }
 
 message Data {

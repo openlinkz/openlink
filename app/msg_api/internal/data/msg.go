@@ -25,7 +25,7 @@ func (repo *msgKafkaMQRepo) SendMsg(ctx context.Context, msg *domain.Message) er
 	}
 
 	kMsg := &sarama.ProducerMessage{}
-	kMsg.Topic = msg.BizTopic()
+	kMsg.Topic = topic
 	kMsg.Key = sarama.StringEncoder(key)
 	bMsg, err := jsoniter.Marshal(msg)
 	if err != nil {

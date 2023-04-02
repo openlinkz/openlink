@@ -49,6 +49,7 @@ func NewMsgGateway(opts ...MsgGatewayOption) *MsgGateway {
 }
 
 type MsgGateway struct {
+	msg_gateway.UnimplementedMsgGatewayServiceServer
 	msgExchangeClient msg_api.MsgExchangeServiceClient
 	upgrader          *websocket.Upgrader
 	sidGenerator      socketid.Generator
@@ -67,11 +68,8 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 			_, _ = w.Write([]byte("websocket upgrade err: " + err.Error()))
 			return
 		}
-
-		uid := r.Header.Get("uid")
-		platform := cast.ToInt32(r.Header.Get("platform"))
-		if uid == "" {
-			// todo
+		uid, platform, err := gateway.parseMetadataFromHeader(r.Header)
+		if err != nil {
 			_, _ = w.Write([]byte("websocket no UID"))
 			return
 		}
@@ -129,7 +127,7 @@ func (gateway *MsgGateway) connectSession(ctx context.Context, session *Session)
 		Server:   session.ServerIP,
 		SID:      session.SID,
 		UID:      session.UID,
-		Platform: session.Platform.String(),
+		Platform: session.Platform,
 	}); err != nil {
 		return
 	}
@@ -170,7 +168,7 @@ func (gateway *MsgGateway) SendMsg(ctx context.Context, msg *msg_api.Msg) (err e
 	return
 }
 
-func (gateway *MsgGateway) PushMsg(ctx context.Context, pushMsgReq *msg_gateway.PushMsgReq) (*msg_gateway.PushMsgReply, error) {
+func (gateway *MsgGateway) PushBatchMsg(ctx context.Context, pushMsgReq *msg_gateway.PushBatchMsgReq) (*msg_gateway.PushBatchMsgReply, error) {
 	var (
 		successTotal, failedTotal int32
 		err                       error
@@ -182,10 +180,17 @@ func (gateway *MsgGateway) PushMsg(ctx context.Context, pushMsgReq *msg_gateway.
 		}
 		successTotal++
 	}
-	return &msg_gateway.PushMsgReply{SuccessTotal: successTotal, FailedTotal: failedTotal}, nil
+	return &msg_gateway.PushBatchMsgReply{SuccessTotal: successTotal, FailedTotal: failedTotal}, nil
 }
 
-func (gateway *MsgGateway) pushOne(ctx context.Context, sid string, protocol *protocol.Protocol) (err error) {
+func (gateway *MsgGateway) PushMsg(ctx context.Context, pushMsgReq *msg_gateway.PushMsgReq) (*msg_gateway.PushMsgReply, error) {
+	if err := gateway.pushOne(ctx, pushMsgReq.SID, pushMsgReq.Protocol); err != nil {
+		return nil, err
+	}
+	return &msg_gateway.PushMsgReply{Success: true}, nil
+}
+
+func (gateway *MsgGateway) pushOne(_ context.Context, sid string, protocol *protocol.Protocol) (err error) {
 	session := gateway.sidConnMapping.Get(sid)
 	if session == nil {
 		err = fmt.Errorf("sid not found")
@@ -198,4 +203,17 @@ func (gateway *MsgGateway) pushOne(ctx context.Context, sid string, protocol *pr
 	}
 	err = session.WriteMessage(websocket.TextMessage, body)
 	return
+}
+
+func (gateway *MsgGateway) parseMetadataFromHeader(header http.Header) (string, protocol.Platform, error) {
+	uid := header.Get("uid")
+	if uid == "" {
+		return "", 0, fmt.Errorf("uid must not empty")
+	}
+
+	platform, err := cast.ToInt32E(header.Get("platform"))
+	if err != nil {
+		return "", 0, fmt.Errorf("platform is invalid. %s", err.Error())
+	}
+	return uid, protocol.Platform(platform), nil
 }

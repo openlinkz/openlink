@@ -31,5 +31,5 @@ func (repo *userStatusRepo) KeepAlive(ctx context.Context, userStatus *domain.Us
 }
 
 func userKey(u *domain.UserStatus) string {
-	return _userOnlinePrefix + domain.PlatformText(u.Platform) + ":" + u.UID
+	return _userOnlinePrefix + u.UID + ":" + domain.PlatformText(u.Platform)
 }

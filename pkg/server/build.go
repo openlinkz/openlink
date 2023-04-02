@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/go-kratos/kratos/v2/config"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -32,6 +33,9 @@ func (x *Config) BuildHTTPServer(opts ...HTTPOption) *http.Server {
 	if err != nil {
 		panic(errors.WithMessage(err, "HTTP server invalid timeout config"))
 	}
+	if options.logger == nil {
+		options.logger = log.DefaultLogger
+	}
 	// 默认开启
 	ms := []middleware.Middleware{
 		recovery.Recovery(),
@@ -61,6 +65,9 @@ func (x *Config) BuildGRPCServer(opts ...GRPCOption) *grpc.Server {
 	timeout, err := time.ParseDuration(x.Timeout)
 	if err != nil {
 		panic(errors.WithMessage(err, "GRPC server invalid timeout config"))
+	}
+	if options.logger == nil {
+		options.logger = log.DefaultLogger
 	}
 	// 默认开启
 	ms := []middleware.Middleware{

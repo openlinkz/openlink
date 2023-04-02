@@ -19,6 +19,7 @@ var ProviderSet = wire.NewSet(NewServers, NewRegistry)
 func NewServers(conf *config.Server, msgExchangeService *service.MsgExchangeService) []transport.Server {
 	httpServer := conf.Http.BuildHTTPServer()
 	_PromHTTP_Metrics_Handler(httpServer)
+	msg_api.RegisterMsgExchangeServiceHTTPServer(httpServer, msgExchangeService)
 
 	grpcServer := conf.Grpc.BuildGRPCServer()
 	msg_api.RegisterMsgExchangeServiceServer(grpcServer, msgExchangeService)

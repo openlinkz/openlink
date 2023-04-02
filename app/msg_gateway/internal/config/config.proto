@@ -3,11 +3,9 @@ package kratos.api;
 
 option go_package = "app/msg_gateway/internal/config;config";
 
-import "server/config.proto";
-import "client/config.proto";
+import "pkg/server/config.proto";
+import "pkg/client/config.proto";
 import "google/protobuf/duration.proto";
-
-// protoc -I. --proto_path=/Users/y.liu/go/src/github.com/openlinkz/openlink/pkg --go_out=paths=source_relative:. app/ws-gateway/internal/config/config.proto
 
 message Bootstrap {
   Server server = 1;
@@ -16,12 +14,12 @@ message Bootstrap {
 }
 
 message Server {
-  server.Config http = 1;
-  server.Config grpc = 2;
+  pkg.server.Config http = 1;
+  pkg.server.Config grpc = 2;
 }
 
 message Client {
-  client.Config wsAPI = 1;
+  pkg.client.Config wsAPI = 1;
 }
 
 message Registry {

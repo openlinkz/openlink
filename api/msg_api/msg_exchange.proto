@@ -50,7 +50,7 @@ message ConnectRequest {
   string server = 1;
   string SID = 2;
   string UID = 3;
-  string platform = 4;
+  protocol.Platform platform = 4;
 }
 
 message ConnectReply {}
@@ -59,6 +59,7 @@ message DisconnectRequest {
   string server = 1;
   string SID = 2;
   string UID = 3;
+  protocol.Platform platform = 4;
 }
 
 message DisconnectReply {}
@@ -67,7 +68,7 @@ message KeepAliveRequest {
   string server = 1;
   string SID = 2;
   string UID = 3;
-  string platform = 4;
+  protocol.Platform platform = 4;
 }
 
 message KeepAliveReply {

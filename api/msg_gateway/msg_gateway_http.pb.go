@@ -19,15 +19,18 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationMsgGatewayServicePushBatchMsg = "/api.msg.gateway.MsgGatewayService/PushBatchMsg"
 const OperationMsgGatewayServicePushMsg = "/api.msg.gateway.MsgGatewayService/PushMsg"
 
 type MsgGatewayServiceHTTPServer interface {
+	PushBatchMsg(context.Context, *PushBatchMsgReq) (*PushBatchMsgReply, error)
 	PushMsg(context.Context, *PushMsgReq) (*PushMsgReply, error)
 }
 
 func RegisterMsgGatewayServiceHTTPServer(s *http.Server, srv MsgGatewayServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/gateway/push_msg", _MsgGatewayService_PushMsg0_HTTP_Handler(srv))
+	r.POST("/gateway/push_msg", _MsgGatewayService_PushBatchMsg0_HTTP_Handler(srv))
 }
 
 func _MsgGatewayService_PushMsg0_HTTP_Handler(srv MsgGatewayServiceHTTPServer) func(ctx http.Context) error {
@@ -49,7 +52,27 @@ func _MsgGatewayService_PushMsg0_HTTP_Handler(srv MsgGatewayServiceHTTPServer) f
 	}
 }
 
+func _MsgGatewayService_PushBatchMsg0_HTTP_Handler(srv MsgGatewayServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in PushBatchMsgReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationMsgGatewayServicePushBatchMsg)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.PushBatchMsg(ctx, req.(*PushBatchMsgReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*PushBatchMsgReply)
+		return ctx.Result(200, reply)
+	}
+}
+
 type MsgGatewayServiceHTTPClient interface {
+	PushBatchMsg(ctx context.Context, req *PushBatchMsgReq, opts ...http.CallOption) (rsp *PushBatchMsgReply, err error)
 	PushMsg(ctx context.Context, req *PushMsgReq, opts ...http.CallOption) (rsp *PushMsgReply, err error)
 }
 
@@ -59,6 +82,19 @@ type MsgGatewayServiceHTTPClientImpl struct {
 
 func NewMsgGatewayServiceHTTPClient(client *http.Client) MsgGatewayServiceHTTPClient {
 	return &MsgGatewayServiceHTTPClientImpl{client}
+}
+
+func (c *MsgGatewayServiceHTTPClientImpl) PushBatchMsg(ctx context.Context, in *PushBatchMsgReq, opts ...http.CallOption) (*PushBatchMsgReply, error) {
+	var out PushBatchMsgReply
+	pattern := "/gateway/push_msg"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationMsgGatewayServicePushBatchMsg))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *MsgGatewayServiceHTTPClientImpl) PushMsg(ctx context.Context, in *PushMsgReq, opts ...http.CallOption) (*PushMsgReply, error) {

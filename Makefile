@@ -5,4 +5,4 @@ proto:
 	kratos proto client pkg
 	kratos proto client internal
 	kratos proto client api
-	kratos proto client --proto_path=${shell pwd}/pkg app
+	kratos proto client app

@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgGatewayServiceClient interface {
 	PushMsg(ctx context.Context, in *PushMsgReq, opts ...grpc.CallOption) (*PushMsgReply, error)
+	PushBatchMsg(ctx context.Context, in *PushBatchMsgReq, opts ...grpc.CallOption) (*PushBatchMsgReply, error)
 }
 
 type msgGatewayServiceClient struct {
@@ -42,11 +43,21 @@ func (c *msgGatewayServiceClient) PushMsg(ctx context.Context, in *PushMsgReq, o
 	return out, nil
 }
 
+func (c *msgGatewayServiceClient) PushBatchMsg(ctx context.Context, in *PushBatchMsgReq, opts ...grpc.CallOption) (*PushBatchMsgReply, error) {
+	out := new(PushBatchMsgReply)
+	err := c.cc.Invoke(ctx, "/api.msg.gateway.MsgGatewayService/PushBatchMsg", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgGatewayServiceServer is the server API for MsgGatewayService service.
 // All implementations must embed UnimplementedMsgGatewayServiceServer
 // for forward compatibility
 type MsgGatewayServiceServer interface {
 	PushMsg(context.Context, *PushMsgReq) (*PushMsgReply, error)
+	PushBatchMsg(context.Context, *PushBatchMsgReq) (*PushBatchMsgReply, error)
 	mustEmbedUnimplementedMsgGatewayServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedMsgGatewayServiceServer struct {
 
 func (UnimplementedMsgGatewayServiceServer) PushMsg(context.Context, *PushMsgReq) (*PushMsgReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PushMsg not implemented")
+}
+func (UnimplementedMsgGatewayServiceServer) PushBatchMsg(context.Context, *PushBatchMsgReq) (*PushBatchMsgReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushBatchMsg not implemented")
 }
 func (UnimplementedMsgGatewayServiceServer) mustEmbedUnimplementedMsgGatewayServiceServer() {}
 
@@ -88,6 +102,24 @@ func _MsgGatewayService_PushMsg_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MsgGatewayService_PushBatchMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PushBatchMsgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgGatewayServiceServer).PushBatchMsg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.msg.gateway.MsgGatewayService/PushBatchMsg",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgGatewayServiceServer).PushBatchMsg(ctx, req.(*PushBatchMsgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MsgGatewayService_ServiceDesc is the grpc.ServiceDesc for MsgGatewayService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var MsgGatewayService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PushMsg",
 			Handler:    _MsgGatewayService_PushMsg_Handler,
+		},
+		{
+			MethodName: "PushBatchMsg",
+			Handler:    _MsgGatewayService_PushBatchMsg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

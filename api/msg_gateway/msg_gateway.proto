@@ -13,15 +13,30 @@ service MsgGatewayService {
       post: "/gateway/push_msg",
       body: "*"
     };
+  };
+  rpc PushBatchMsg(PushBatchMsgReq) returns (PushBatchMsgReply) {
+    option(google.api.http) = {
+      post: "/gateway/push_batch_msg",
+      body: "*"
+    };
   }
 }
 
 message PushMsgReq {
+  string SID = 1;
+  msg.protocol.Protocol protocol = 2;
+}
+
+message PushBatchMsgReq {
   repeated string SIDs = 1;
   msg.protocol.Protocol protocol = 2;
 }
 
 message PushMsgReply {
+  bool success = 1;
+}
+
+message PushBatchMsgReply {
   int32 successTotal = 1;
   int32 failedTotal = 2;
 }

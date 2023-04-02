@@ -37,6 +37,7 @@ func (svc *MsgExchangeService) Connect(ctx context.Context, req *msg_api.Connect
 		Server:         req.Server,
 		SID:            req.SID,
 		UID:            req.UID,
+		Platform:       domain.PlatformFrom(int(req.Platform.Number())),
 		ExpireDuration: 60 * time.Minute,
 	})
 	return &msg_api.ConnectReply{}, err
@@ -44,9 +45,10 @@ func (svc *MsgExchangeService) Connect(ctx context.Context, req *msg_api.Connect
 
 func (svc *MsgExchangeService) Disconnect(ctx context.Context, req *msg_api.DisconnectRequest) (*msg_api.DisconnectReply, error) {
 	err := svc.userStatusBiz.Disconnect(ctx, &domain.UserStatus{
-		Server: req.Server,
-		SID:    req.SID,
-		UID:    req.UID,
+		Server:   req.Server,
+		SID:      req.SID,
+		UID:      req.UID,
+		Platform: domain.PlatformFrom(int(req.Platform.Number())),
 	})
 	return &msg_api.DisconnectReply{}, err
 }
@@ -56,6 +58,7 @@ func (svc *MsgExchangeService) KeepAlive(ctx context.Context, req *msg_api.KeepA
 		Server:         req.Server,
 		SID:            req.SID,
 		UID:            req.UID,
+		Platform:       domain.PlatformFrom(int(req.Platform.Number())),
 		ExpireDuration: 0,
 	})
 	return &msg_api.KeepAliveReply{}, err

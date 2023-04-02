@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package client;
+package pkg.client;
 
 option go_package = "github.com/openlinkz/openlink/pkg/client";
 
