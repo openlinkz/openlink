@@ -30,7 +30,7 @@ type MsgGatewayServiceHTTPServer interface {
 func RegisterMsgGatewayServiceHTTPServer(s *http.Server, srv MsgGatewayServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/gateway/push_msg", _MsgGatewayService_PushMsg0_HTTP_Handler(srv))
-	r.POST("/gateway/push_msg", _MsgGatewayService_PushBatchMsg0_HTTP_Handler(srv))
+	r.POST("/gateway/push_batch_msg", _MsgGatewayService_PushBatchMsg0_HTTP_Handler(srv))
 }
 
 func _MsgGatewayService_PushMsg0_HTTP_Handler(srv MsgGatewayServiceHTTPServer) func(ctx http.Context) error {
@@ -86,7 +86,7 @@ func NewMsgGatewayServiceHTTPClient(client *http.Client) MsgGatewayServiceHTTPCl
 
 func (c *MsgGatewayServiceHTTPClientImpl) PushBatchMsg(ctx context.Context, in *PushBatchMsgReq, opts ...http.CallOption) (*PushBatchMsgReply, error) {
 	var out PushBatchMsgReply
-	pattern := "/gateway/push_msg"
+	pattern := "/gateway/push_batch_msg"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMsgGatewayServicePushBatchMsg))
 	opts = append(opts, http.PathTemplate(pattern))

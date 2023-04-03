@@ -5,7 +5,8 @@ package api.msg.protocol;
 option go_package = "github.com/openlinkz/openlink/api/protocol";
 
 enum Type {
-  HEARTBEAT = 0;
+  TYPE_UNSPECIFIED = 0;
+  HEARTBEAT = 1;
 }
 
 message Protocol {
@@ -15,12 +16,15 @@ message Protocol {
 
 message HeartBeatPayload {
   string server = 1;
-  string sid = 2;
-  string uid = 3;
+  string SID = 2;
+  string UID = 3;
+  Platform platform = 4;
 }
 
 enum Platform {
-  PC = 0;
-  APP = 1;
-  H5 = 2;
+  // Default value for an unset field. Do not use.
+  PLATFORM_UNSPECIFIED = 0;
+  PC = 1;
+  APP = 2;
+  H5 = 3;
 }

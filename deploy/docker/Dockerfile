@@ -8,7 +8,7 @@ ENV GOOS=linux
 ARG APP_NAME
 ARG LDFLAGS="-s -w -linkmode external -extldflags \"-static\""
 
-WORKDIR /go/src/ws-gateway
+WORKDIR /go/src/openlink
 
 RUN sed -i 's!http://dl-cdn.alpinelinux.org/!https://mirrors.tuna.tsinghua.edu.cn/!g' /etc/apk/repositories
 RUN apk update && apk upgrade
@@ -40,6 +40,6 @@ RUN apk --update add ca-certificates tzdata && \
 
 WORKDIR /app
 
-COPY --from=build /go/src/ws-gateway/${APP_NAME} ${APP_NAME}
+COPY --from=build /go/src/openlink/${APP_NAME} ${APP_NAME}
 
 CMD /app/${APP_NAME}

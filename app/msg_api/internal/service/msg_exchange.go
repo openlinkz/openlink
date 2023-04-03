@@ -23,7 +23,7 @@ type MsgExchangeService struct {
 }
 
 func (svc *MsgExchangeService) SendMsg(ctx context.Context, msg *msg_api.Msg) (*msg_api.SendMsgReply, error) {
-	return nil, svc.msgExchangeBiz.Send(ctx, &domain.Message{
+	return &msg_api.SendMsgReply{}, svc.msgExchangeBiz.Send(ctx, &domain.Message{
 		ServerIP: msg.Server,
 		SID:      msg.SID,
 		UID:      msg.UID,

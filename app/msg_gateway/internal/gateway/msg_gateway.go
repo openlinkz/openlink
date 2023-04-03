@@ -104,20 +104,22 @@ func (gateway *MsgGateway) WebsocketConnectHandler() http.HandlerFunc {
 			}
 			metrics.GatewayInputBytes.Add(float64(len(data)))
 
+			log.Infof("revc message %s", string(data))
+
 			protoMsg := &protocol.Protocol{}
 			if err := codec.Unmarshal(data, &protoMsg); err != nil {
 				log.Errorf("unmarshal protocol err: %s", err.Error())
 				continue
 			}
 
-			if protoMsg.Type == protocol.Type_name[int32(protocol.Type_HEARTBEAT)] {
+			if protoMsg.Type == protocol.Type_HEARTBEAT.String() {
 				if err = gateway.keepAliveSession(r.Context(), session); err != nil {
 					log.Errorf("conn keepalive failed. SID: %s. UID: %s", session.SID, session.UID)
 					continue
 				}
 			}
 
-			if err = gateway.SendMsg(r.Context(), &msg_api.Msg{Server: session.ServerIP, SID: session.SID, Protocol: protoMsg}); err != nil {
+			if err = gateway.SendMsg(r.Context(), &msg_api.Msg{Server: session.ServerIP, SID: session.SID, Platform: platform, Protocol: protoMsg}); err != nil {
 				log.Errorf("send msg err: %s", err.Error())
 				continue
 			}
@@ -154,7 +156,7 @@ func (gateway *MsgGateway) disconnectSession(ctx context.Context, session *Sessi
 	// 用户断开连接
 	_, err = gateway.msgExchangeClient.Disconnect(ctx, &msg_api.DisconnectRequest{Server: gateway.serverIP, SID: session.SID})
 	if err != nil {
-		log.Errorf("conn closed. SID: %d\n", session.SID)
+		log.Errorf("conn closed. SID: %s\n", session.SID)
 		return
 	}
 	log.Infof("conn closed. SID: %s\n", session.SID)

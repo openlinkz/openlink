@@ -1,6 +1,9 @@
 package domain
 
-import "context"
+import (
+	"context"
+	jsoniter "github.com/json-iterator/go"
+)
 
 type MsgRepo interface {
 	SendMsg(ctx context.Context, msg *Message) error
@@ -26,4 +29,9 @@ func (msg *Message) BizTopic() string {
 
 func (msg *Message) BizKey() string {
 	return msg.SID
+}
+
+func (msg *Message) String() string {
+	body, _ := jsoniter.Marshal(msg)
+	return string(body)
 }

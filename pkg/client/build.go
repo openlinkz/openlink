@@ -26,6 +26,14 @@ func NewConfig(config config.Config, key string) (c *Config) {
 	return
 }
 
+func (x *Config) BuildHTTPClientMust(ctx context.Context, opts ...HTTPOption) *http.Client {
+	c, err := x.BuildHTTPClient(ctx, opts...)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
 func (x *Config) BuildHTTPClient(ctx context.Context, opts ...HTTPOption) (*http.Client, error) {
 	options := &httpOptions{}
 	for _, opt := range opts {
@@ -53,6 +61,14 @@ func (x *Config) BuildHTTPClient(ctx context.Context, opts ...HTTPOption) (*http
 	}
 
 	return http.NewClient(ctx, clientOpts...)
+}
+
+func (x *Config) BuildGRPCClientMust(ctx context.Context, opts ...GRPCOption) *gRPC.ClientConn {
+	c, err := x.BuildGRPCClient(ctx, opts...)
+	if err != nil {
+		panic(err)
+	}
+	return c
 }
 
 func (x *Config) BuildGRPCClient(ctx context.Context, opts ...GRPCOption) (*gRPC.ClientConn, error) {

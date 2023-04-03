@@ -28,6 +28,10 @@ services:
       APP_NAME: msg_api
     ports:
       - "8081:8081"
+    depends_on:
+      - kafka
+      - etcdv3
+      - redis
     deploy:
       resources:
         limits:
@@ -36,6 +40,7 @@ services:
         reservations:
           cpus: '1'
           memory: 2G
+
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
@@ -53,6 +58,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
     depends_on:
       - zookeeper
+
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -63,3 +69,18 @@ services:
     environment:
       TZ: Asia/Shanghai
     restart: always
+
+  etcdv3:
+    image: bitnami/etcd
+    environment:
+      ALLOW_NONE_AUTHENTICATION: "yes"
+    ports:
+      - "2379:2379"
+
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    command:
+      - --requirepass root
+      - --bind 0.0.0.0
