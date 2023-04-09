@@ -4,16 +4,16 @@ package api.msg.api;
 
 option go_package = "github.com/openlinkz/openlink/api/msg_api";
 
+import "api/protocol/protocol.proto";
+
 service MsgAPIService {
-  rpc Push(BizMsg) returns (PushBizMsgReply) {}
+  rpc PushMsg(BizMsg) returns (PushBizMsgReply) {}
 }
 
 message BizMsg {
-  string bizCode = 1;
-  string bizDesc = 2;
-  string bizPayload = 3;
-
-  uint64 uid = 4; // 推送的用户标识
+  string uid = 1;
+  protocol.Platform platform = 2;
+  protocol.Protocol protocol = 3;
 }
 
 message PushBizMsgReply {

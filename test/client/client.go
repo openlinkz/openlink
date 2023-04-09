@@ -43,7 +43,6 @@ func main() {
 		case <-done:
 			return
 		case <-ticker.C:
-
 			p := &protocol.Protocol{
 				Type:    "IM",
 				Payload: []byte("AAAAAAAAAAAAAAAAAAAAAA"),

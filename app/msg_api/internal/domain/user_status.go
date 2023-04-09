@@ -9,6 +9,8 @@ type UserStatusRepo interface {
 	Connect(ctx context.Context, status *UserStatus) error
 	Disconnect(ctx context.Context, status *UserStatus) error
 	KeepAlive(ctx context.Context, status *UserStatus) error
+
+	GetSID(ctx context.Context, uid string, platform Platform) (string, error)
 }
 
 type UserStatus struct {

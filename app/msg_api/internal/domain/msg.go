@@ -6,32 +6,40 @@ import (
 )
 
 type MsgRepo interface {
-	SendMsg(ctx context.Context, msg *Message) error
-	SendBatchMsg(ctx context.Context, msg []*Message) error
+	SendMsg(ctx context.Context, msg *Msg) error
+	SendBatchMsg(ctx context.Context, msg []*Msg) error
 }
 
-type MsgBody struct {
-	Type    string
-	Payload []byte
-}
+type (
+	Msg struct {
+		ServerIP string
+		SID      string
+		UID      string
+		Platform Platform
+		Body     MsgBody
+	}
 
-type Message struct {
-	ServerIP string
-	SID      string
-	UID      string
-	Platform Platform
-	Body     MsgBody
-}
+	BizMsg struct {
+		UID      string
+		Platform Platform
+		Body     MsgBody
+	}
 
-func (msg *Message) BizTopic() string {
+	MsgBody struct {
+		Type    string
+		Payload []byte
+	}
+)
+
+func (msg *Msg) BizTopic() string {
 	return msg.Body.Type
 }
 
-func (msg *Message) BizKey() string {
+func (msg *Msg) BizKey() string {
 	return msg.SID
 }
 
-func (msg *Message) String() string {
+func (msg *Msg) String() string {
 	body, _ := jsoniter.Marshal(msg)
 	return string(body)
 }

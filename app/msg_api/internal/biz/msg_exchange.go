@@ -14,7 +14,7 @@ type MsgExchangeBiz struct {
 	msgRepo domain.MsgRepo
 }
 
-func (biz *MsgExchangeBiz) Send(ctx context.Context, msg *domain.Message) error {
+func (biz *MsgExchangeBiz) Send(ctx context.Context, msg *domain.Msg) error {
 	log.Infof("revc msg: %s", msg.String())
 	return biz.msgRepo.SendMsg(ctx, msg)
 }

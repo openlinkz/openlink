@@ -18,7 +18,7 @@ type msgKafkaMQRepo struct {
 	producer sarama.SyncProducer
 }
 
-func (repo *msgKafkaMQRepo) SendMsg(ctx context.Context, msg *domain.Message) error {
+func (repo *msgKafkaMQRepo) SendMsg(ctx context.Context, msg *domain.Msg) error {
 	topic, key := msg.BizTopic(), msg.BizKey()
 	if topic == "" || key == "" {
 		return errors.New("invalid msg")
@@ -37,7 +37,7 @@ func (repo *msgKafkaMQRepo) SendMsg(ctx context.Context, msg *domain.Message) er
 	return err
 }
 
-func (repo *msgKafkaMQRepo) SendBatchMsg(ctx context.Context, messages []*domain.Message) error {
+func (repo *msgKafkaMQRepo) SendBatchMsg(ctx context.Context, messages []*domain.Msg) error {
 	pMessage := make([]*sarama.ProducerMessage, 0, len(messages))
 
 	for _, msg := range messages {
@@ -51,7 +51,7 @@ func (repo *msgKafkaMQRepo) SendBatchMsg(ctx context.Context, messages []*domain
 	return repo.producer.SendMessages(pMessage)
 }
 
-func convertToProducerMsg(msg *domain.Message) (*sarama.ProducerMessage, error) {
+func convertToProducerMsg(msg *domain.Msg) (*sarama.ProducerMessage, error) {
 	topic, key := msg.BizTopic(), msg.BizKey()
 	if topic == "" || key == "" {
 		return nil, errors.New("invalid msg")

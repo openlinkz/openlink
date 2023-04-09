@@ -2,14 +2,11 @@ package service
 
 import (
 	"context"
-	"github.com/google/wire"
 	"github.com/openlinkz/openlink/api/msg_api"
 	"github.com/openlinkz/openlink/app/msg_api/internal/biz"
 	"github.com/openlinkz/openlink/app/msg_api/internal/domain"
 	"time"
 )
-
-var ProviderSet = wire.NewSet(NewMsgExchangeService)
 
 func NewMsgExchangeService(msgExchangeBiz *biz.MsgExchangeBiz, userStatusBiz *biz.UserStatusBiz) *MsgExchangeService {
 	svc := &MsgExchangeService{msgExchangeBiz: msgExchangeBiz, userStatusBiz: userStatusBiz}
@@ -23,7 +20,7 @@ type MsgExchangeService struct {
 }
 
 func (svc *MsgExchangeService) SendMsg(ctx context.Context, msg *msg_api.Msg) (*msg_api.SendMsgReply, error) {
-	return &msg_api.SendMsgReply{}, svc.msgExchangeBiz.Send(ctx, &domain.Message{
+	return &msg_api.SendMsgReply{}, svc.msgExchangeBiz.Send(ctx, &domain.Msg{
 		ServerIP: msg.Server,
 		SID:      msg.SID,
 		UID:      msg.UID,

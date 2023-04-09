@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgAPIServiceClient interface {
-	Push(ctx context.Context, in *BizMsg, opts ...grpc.CallOption) (*PushBizMsgReply, error)
+	PushMsg(ctx context.Context, in *BizMsg, opts ...grpc.CallOption) (*PushBizMsgReply, error)
 }
 
 type msgAPIServiceClient struct {
@@ -33,9 +33,9 @@ func NewMsgAPIServiceClient(cc grpc.ClientConnInterface) MsgAPIServiceClient {
 	return &msgAPIServiceClient{cc}
 }
 
-func (c *msgAPIServiceClient) Push(ctx context.Context, in *BizMsg, opts ...grpc.CallOption) (*PushBizMsgReply, error) {
+func (c *msgAPIServiceClient) PushMsg(ctx context.Context, in *BizMsg, opts ...grpc.CallOption) (*PushBizMsgReply, error) {
 	out := new(PushBizMsgReply)
-	err := c.cc.Invoke(ctx, "/api.msg.api.MsgAPIService/Push", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.msg.api.MsgAPIService/PushMsg", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *msgAPIServiceClient) Push(ctx context.Context, in *BizMsg, opts ...grpc
 // All implementations must embed UnimplementedMsgAPIServiceServer
 // for forward compatibility
 type MsgAPIServiceServer interface {
-	Push(context.Context, *BizMsg) (*PushBizMsgReply, error)
+	PushMsg(context.Context, *BizMsg) (*PushBizMsgReply, error)
 	mustEmbedUnimplementedMsgAPIServiceServer()
 }
 
@@ -54,8 +54,8 @@ type MsgAPIServiceServer interface {
 type UnimplementedMsgAPIServiceServer struct {
 }
 
-func (UnimplementedMsgAPIServiceServer) Push(context.Context, *BizMsg) (*PushBizMsgReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Push not implemented")
+func (UnimplementedMsgAPIServiceServer) PushMsg(context.Context, *BizMsg) (*PushBizMsgReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushMsg not implemented")
 }
 func (UnimplementedMsgAPIServiceServer) mustEmbedUnimplementedMsgAPIServiceServer() {}
 
@@ -70,20 +70,20 @@ func RegisterMsgAPIServiceServer(s grpc.ServiceRegistrar, srv MsgAPIServiceServe
 	s.RegisterService(&MsgAPIService_ServiceDesc, srv)
 }
 
-func _MsgAPIService_Push_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MsgAPIService_PushMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(BizMsg)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgAPIServiceServer).Push(ctx, in)
+		return srv.(MsgAPIServiceServer).PushMsg(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.msg.api.MsgAPIService/Push",
+		FullMethod: "/api.msg.api.MsgAPIService/PushMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgAPIServiceServer).Push(ctx, req.(*BizMsg))
+		return srv.(MsgAPIServiceServer).PushMsg(ctx, req.(*BizMsg))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +96,8 @@ var MsgAPIService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgAPIServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Push",
-			Handler:    _MsgAPIService_Push_Handler,
+			MethodName: "PushMsg",
+			Handler:    _MsgAPIService_PushMsg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
